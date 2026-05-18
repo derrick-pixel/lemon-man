@@ -1,0 +1,15 @@
+# Confidential source material — kept local, never pushed.
+# The privileged legal memo and the business plan do not belong in
+# the website repository.
+Legal Assessment of Project Lemon Man.pdf
+Lemon Man cowork_handoff_brief.md
+Lemon Man_business_plan_v1.1.md
+_source/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+.gstack/
