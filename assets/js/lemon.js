@@ -157,9 +157,11 @@
       { id: 'theft',   name: 'Theft (with police report)',         base: 500 }
     ];
     var RIPEN = [
-      { id: 'testi', name: 'Verified good testimonial',  per: 70,  max: 2 },
-      { id: 'wsq',   name: 'WSQ course completed',       per: 90,  max: 2 },
-      { id: 'clean', name: '12+ clean months on record', per: 200, max: 1 }
+      { id: 'testi',  name: 'Verified good testimonial',     per: 70,  max: 2 },
+      { id: 'wsq',    name: 'WSQ course completed',          per: 90,  max: 2 },
+      { id: 'volun',  name: 'Certified charity volunteering', per: 60,  max: 3, unit: '20h at an IPC charity' },
+      { id: 'donate', name: 'Tax-deductible charity donation',per: 50,  max: 3, unit: 'S$500 to an IPC charity' },
+      { id: 'clean',  name: '12+ clean months on record',    per: 200, max: 1 }
     ];
     var MAX_N = 3;
 
@@ -188,7 +190,9 @@
       var el = mk('div', 'cinc' + (isRipen ? ' cinc--ripen' : ''));
       var info = mk('div');
       info.appendChild(mk('div', 'cinc__name', item.name));
-      info.appendChild(mk('div', 'cinc__base', isRipen ? ('−' + item.per + ' each') : ('base ' + item.base)));
+      info.appendChild(mk('div', 'cinc__base', isRipen
+        ? ('−' + item.per + (item.unit ? ' per ' + item.unit : ' each'))
+        : ('base ' + item.base)));
       var ctl = mk('div', 'cinc__ctl');
       var dec = mk('button', 'cstep', '−');
       var nEl = mk('span', 'cinc__n', '0');
