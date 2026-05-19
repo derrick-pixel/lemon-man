@@ -311,15 +311,15 @@ strong { font-weight: 700; color: var(--ink); }
 .hero--grove {
   background:
     linear-gradient(rgba(246,239,218,.58), rgba(246,239,218,.58)),
-    url(../img/grove-bg.png) center bottom / cover no-repeat var(--paper);
+    url(../img/grove-bg.webp) center bottom / cover no-repeat var(--paper);
 }
 
 /* decorative grove band above the footer */
-.grove-band { height: clamp(64px, 8vw, 108px); background: #f3ecd6 url(../img/band-bg.png) center bottom / auto 100% repeat-x; border-top: 2.5px solid var(--ink); }
+.grove-band { height: clamp(64px, 8vw, 108px); background: #f3ecd6 url(../img/band-bg.webp) center bottom / auto 100% repeat-x; border-top: 2.5px solid var(--ink); }
 
 /* faint confetti section — cream wash drops the pattern behind the text */
 .bg-confetti {
-  background-image: linear-gradient(rgba(246,239,218,.78), rgba(246,239,218,.78)), url(../img/confetti.png);
+  background-image: linear-gradient(rgba(246,239,218,.78), rgba(246,239,218,.78)), url(../img/confetti.webp);
   background-size: auto, 430px;
   background-repeat: repeat, repeat;
 }
