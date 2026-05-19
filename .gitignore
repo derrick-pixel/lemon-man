@@ -13,3 +13,6 @@ Thumbs.db
 .vscode/
 .idea/
 .gstack/
+
+# Raw Stitch illustration exports — processed copies live in assets/img/
+stitch_lemon_man_illustration_set/

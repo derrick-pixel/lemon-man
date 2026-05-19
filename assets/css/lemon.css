@@ -264,6 +264,45 @@ strong { font-weight: 700; color: var(--ink); }
   .calc__result { position: static; }
 }
 
+/* ---- Illustrations ------------------------------------------- */
+.illo { display: block; height: auto; max-width: 100%; }
+.illo--pop { filter: drop-shadow(6px 6px 0 rgba(33,29,18,.16)); }
+
+/* hero mascot — peeks out from behind the score card */
+.hero__visual { position: relative; }
+.hero__visual .gauge { position: relative; z-index: 2; }
+.hero-mascot { position: absolute; width: 46%; max-width: 224px; left: -13%; bottom: -12%; z-index: 1; }
+
+/* full-bleed illustration strip */
+.illo-strip { width: 100%; margin-inline: auto; }
+.illo-strip--rogues { max-width: 940px; }
+.illo-strip--ripen { max-width: 760px; }
+.illo-cap { text-align: center; font-family: var(--mono); font-size: .76rem; letter-spacing: .04em; color: var(--ink-3); margin-top: .8rem; }
+
+/* trophy in the scoreboard heading */
+.illo-trophy { width: 150px; margin-bottom: 1.2rem; }
+
+/* footer sign-off wave */
+.foot-wave { width: 118px; margin-top: 1.4rem; }
+
+/* mascot beside the calculator heading */
+.calc-mascot { width: 108px; flex: none; }
+.head--mascot { display: flex; align-items: flex-start; gap: 1.4rem; }
+.head--mascot > div { flex: 1; }
+
+/* a character peeking at a hero card */
+.char-peek { position: absolute; width: 34%; max-width: 158px; z-index: 4; }
+.char-peek--lemon { right: -7%; bottom: -8%; }
+.char-peek--peach { left: -9%; bottom: -7%; }
+
+@media (max-width: 720px) {
+  .hero-mascot { display: none; }
+  .illo-trophy { width: 116px; }
+  .head--mascot { gap: 1rem; }
+  .calc-mascot { width: 64px; }
+  .char-peek { display: none; }
+}
+
 /* ---- Cards & grids ------------------------------------------- */
 .grid { display: grid; gap: 1.4rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
