@@ -78,13 +78,15 @@
           arc.style.strokeDashoffset = len - (len * (target / max));
         });
       }
+      var card = g.querySelector('.gauge__card');
       if (num) {
         var start = performance.now(), dur = 1500;
         var tick = function (now) {
           var p = Math.min((now - start) / dur, 1);
           var eased = 1 - Math.pow(1 - p, 3);
           num.textContent = Math.round(target * eased);
-          if (p < 1) requestAnimationFrame(tick);
+          if (p < 1) { requestAnimationFrame(tick); }
+          else if (card) { card.classList.add('is-popped'); }
         };
         requestAnimationFrame(tick);
       }
@@ -118,6 +120,33 @@
     } else { place(); }
   });
 
+  /* ---- Confetti burst ---------------------------------------- */
+  function confettiBurst(origin) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var host = origin.closest('section') || document.body;
+    if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+    var r = origin.getBoundingClientRect(), h = host.getBoundingClientRect();
+    var cx = r.left - h.left + r.width / 2, cy = r.top - h.top + r.height / 2;
+    var colours = ['#e3a400', '#ffd23c', '#e6855c', '#f4a983', '#fffdf2'];
+    for (var i = 0; i < 22; i++) {
+      (function (idx) {
+        var p = document.createElement('span'), sz = 7 + Math.random() * 7;
+        p.style.cssText = 'position:absolute;left:' + cx + 'px;top:' + cy + 'px;width:' + sz +
+          'px;height:' + sz + 'px;background:' + colours[idx % 5] + ';border:1.5px solid #211d12;border-radius:' +
+          (Math.random() < 0.5 ? '50%' : '2px') + ';pointer-events:none;z-index:60;';
+        host.appendChild(p);
+        var ang = Math.random() * 6.283, dist = 70 + Math.random() * 175;
+        var a = p.animate(
+          [{ transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+           { transform: 'translate(' + (Math.cos(ang) * dist).toFixed(1) + 'px,' +
+             (Math.sin(ang) * dist + 220).toFixed(1) + 'px) rotate(' +
+             (Math.random() * 800 - 400).toFixed(0) + 'deg)', opacity: 0 }],
+          { duration: 1100 + Math.random() * 600, easing: 'cubic-bezier(.2,.7,.3,1)' });
+        a.onfinish = function () { p.remove(); };
+      })(i);
+    }
+  }
+
   /* ---- Early-access form (front-end stub) -------------------- */
   document.querySelectorAll('.access-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
@@ -131,6 +160,7 @@
         msg.style.color = 'var(--peach-deep, #c45f3a)';
         msg.textContent = '🍋 Squeezed in. We will be in touch about the pilot.';
         form.reset();
+        confettiBurst(form);
       } else {
         msg.style.color = 'var(--flag)';
         msg.textContent = 'That email looks a little sour. Try again.';
@@ -232,6 +262,17 @@
     var elRipTot  = document.getElementById('calc-ripen-total');
     var elFinal   = document.getElementById('calc-final');
 
+    var face    = document.getElementById('calc-face');
+    var cfBody  = face && face.querySelector('.cf-body');
+    var cfMouth = face && face.querySelector('.cf-mouth');
+    var FACES = {
+      peach:  { fill: '#e6855c', mouth: 'M12.5 20 Q16 23.6 19.5 20' },
+      zest:   { fill: '#ffd23c', mouth: 'M13 20.9 Q16 22.5 19 20.9' },
+      sour:   { fill: '#e3a400', mouth: 'M12.5 22.4 Q16 18.8 19.5 22.4' },
+      pucker: { fill: '#a86a00', mouth: 'M12.6 21.2 Q14.3 19.3 16 21.2 Q17.7 23.1 19.4 21.2' }
+    };
+    function faceKey(s) { return s <= 250 ? 'peach' : s <= 550 ? 'zest' : s <= 760 ? 'sour' : 'pucker'; }
+
     function recompute() {
       var raw = 0;
       INCIDENTS.forEach(function (i) { raw += i.base * corr(state[i.id]); });
@@ -246,6 +287,11 @@
       if (elRaw)     elRaw.textContent = raw;
       if (elRipTot)  elRipTot.textContent = '−' + ripen;
       if (elFinal)   elFinal.textContent = score;
+      if (cfBody && cfMouth) {
+        var f = FACES[faceKey(score)];
+        cfBody.setAttribute('fill', f.fill);
+        cfMouth.setAttribute('d', f.mouth);
+      }
     }
 
     var reset = document.getElementById('calc-reset');

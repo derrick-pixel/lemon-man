@@ -506,3 +506,38 @@ strong { font-weight: 700; color: var(--ink); }
   .stats { grid-template-columns: 1fr; }
   .stat { border-right: 0 !important; border-bottom: 2px solid var(--ink); }
 }
+
+/* ============================================================
+   Cute layer — motion, reactive mascot, hand-drawn icons
+   ============================================================ */
+
+/* ---- Idle motion -------------------------------------------- */
+@keyframes lm-bob    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes lm-squish { 0% { transform: scale(1); } 28% { transform: scale(1.05,.93); } 55% { transform: scale(.97,1.04); } 80% { transform: scale(1.01,.99); } 100% { transform: scale(1); } }
+@keyframes lm-wiggle { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+
+.hero-mascot      { animation: lm-bob 4.2s ease-in-out infinite; }
+.cta-cheer        { animation: lm-bob 3.6s ease-in-out infinite; }
+.pricing-hero-img { animation: lm-bob 4.7s ease-in-out infinite; }
+.char-peek        { animation: lm-bob 4s   ease-in-out infinite; }
+.calc-mascot      { animation: lm-bob 3.9s ease-in-out infinite; transition: transform .2s ease; }
+.head--mascot:hover .calc-mascot { animation: lm-wiggle .5s ease-in-out; }
+
+/* ---- Juicy press -------------------------------------------- */
+.btn  { transition: transform .22s cubic-bezier(.34,1.55,.5,1), box-shadow .18s ease, background .16s ease; }
+.btn:active { transform: translate(0,1px) scale(.96); box-shadow: none; }
+.card { transition: transform .22s cubic-bezier(.34,1.5,.55,1), box-shadow .22s ease; }
+.tier { transition: transform .22s cubic-bezier(.34,1.5,.55,1), box-shadow .22s ease; }
+
+/* gauge / calculator panel lands with a squish */
+.gauge__card.is-popped { animation: lm-squish .55s ease; }
+
+/* ---- Reactive calculator mascot ----------------------------- */
+.calc-face { width: 78px; height: 78px; display: block; margin: -.3rem auto .5rem; }
+.calc-face .cf-body { transition: fill .35s ease; }
+.calc-face .cf-mouth, .calc-face .cf-brow { transition: d .3s ease, transform .3s ease; }
+
+/* ---- Hand-drawn icons --------------------------------------- */
+svg.ic { width: 1.5em; height: 1.5em; flex: none; vertical-align: -.34em; }
+svg.ic--sm { width: 1.2em; height: 1.2em; }
+.pledge__mark svg.ic { width: 1.25rem; height: 1.25rem; vertical-align: 0; }
