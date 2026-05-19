@@ -303,6 +303,31 @@ strong { font-weight: 700; color: var(--ink); }
   .char-peek { display: none; }
 }
 
+/* ---- Illustrations v2 ---------------------------------------- */
+.illo-wide  { width: 100%; max-width: 680px; margin-inline: auto; }
+.illo-scene { width: 100%; max-width: 430px; margin-inline: auto; }
+
+/* for-workers hero — soft grove backdrop */
+.hero--grove { background: var(--paper) url(../img/grove-bg.png) center bottom / cover no-repeat; }
+
+/* decorative grove band above the footer */
+.grove-band { height: clamp(64px, 8vw, 108px); background: #f3ecd6 url(../img/band-bg.png) center bottom / auto 100% repeat-x; border-top: 2.5px solid var(--ink); }
+
+/* faint confetti section wash */
+.bg-confetti { background-image: url(../img/confetti.png); background-size: 430px; background-repeat: repeat; }
+
+/* celebrate character peeking on a CTA */
+.section.cta-band { position: relative; overflow: hidden; }
+.cta-cheer { position: absolute; width: 140px; bottom: 0; right: clamp(6px, 5vw, 72px); z-index: 3; }
+
+/* handshake floating in the pricing hero */
+.pricing-hero-img { position: absolute; right: clamp(-10px, 2vw, 36px); bottom: -8px; width: clamp(190px, 26vw, 312px); z-index: 1; }
+
+@media (max-width: 720px) {
+  .cta-cheer { width: 88px; right: 2px; }
+  .pricing-hero-img { display: none; }
+}
+
 /* ---- Cards & grids ------------------------------------------- */
 .grid { display: grid; gap: 1.4rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
