@@ -138,6 +138,122 @@
     });
   });
 
+  /* ---- Lemon Score calculator -------------------------------- */
+  (function () {
+    var host = document.getElementById('calc-incidents');
+    if (!host) return;
+
+    // base points — identical to the incident table on this page
+    var INCIDENTS = [
+      { id: 'late',    name: 'Chronically late',                  base: 45  },
+      { id: 'q4mc',    name: 'Q4 medical-leave clearing',         base: 90  },
+      { id: 'bail',    name: 'Last-minute bail (under 24h)',       base: 130 },
+      { id: 'insub',   name: 'Insubordination + disciplinary',    base: 150 },
+      { id: 'mc',      name: 'Suspected malingering MC',           base: 160 },
+      { id: 'noshow',  name: 'No-show (full shift)',               base: 200 },
+      { id: 'abandon', name: 'Contract abandonment',               base: 260 },
+      { id: 'cred',    name: 'Credential falsification',           base: 380 },
+      { id: 'data',    name: 'Data-secrecy breach (with finding)', base: 420 },
+      { id: 'theft',   name: 'Theft (with police report)',         base: 500 }
+    ];
+    var RIPEN = [
+      { id: 'testi', name: 'Verified good testimonial',  per: 70,  max: 2 },
+      { id: 'wsq',   name: 'WSQ course completed',       per: 90,  max: 2 },
+      { id: 'clean', name: '12+ clean months on record', per: 200, max: 1 }
+    ];
+    var MAX_N = 3;
+
+    // corroboration multiplier: 0.25n^2 + 0.75n  ->  m1=1, m2=2.5, m3=4.5
+    function corr(n) { return n <= 0 ? 0 : 0.25 * n * n + 0.75 * n; }
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function band(s) {
+      if (s <= 250) return ['Peach — safe hire', 'is-peach'];
+      if (s <= 550) return ['A bit zesty', 'is-zest'];
+      if (s <= 760) return ['Sour — handle with care', 'is-sour'];
+      return ['Pucker up', 'is-sour'];
+    }
+    function mk(tag, cls, text) {
+      var e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+
+    var state = {};
+    var syncers = [];
+    INCIDENTS.concat(RIPEN).forEach(function (x) { state[x.id] = 0; });
+
+    function makeRow(item, isRipen) {
+      var max = isRipen ? item.max : MAX_N;
+      var el = mk('div', 'cinc' + (isRipen ? ' cinc--ripen' : ''));
+      var info = mk('div');
+      info.appendChild(mk('div', 'cinc__name', item.name));
+      info.appendChild(mk('div', 'cinc__base', isRipen ? ('−' + item.per + ' each') : ('base ' + item.base)));
+      var ctl = mk('div', 'cinc__ctl');
+      var dec = mk('button', 'cstep', '−');
+      var nEl = mk('span', 'cinc__n', '0');
+      var inc = mk('button', 'cstep', '+');
+      dec.type = inc.type = 'button';
+      dec.setAttribute('aria-label', 'Decrease ' + item.name);
+      inc.setAttribute('aria-label', 'Increase ' + item.name);
+      ctl.appendChild(dec); ctl.appendChild(nEl); ctl.appendChild(inc);
+      var outEl = mk('span', 'cinc__out', '0');
+      el.appendChild(info); el.appendChild(ctl); el.appendChild(outEl);
+
+      function sync() {
+        var n = state[item.id];
+        nEl.textContent = n;
+        el.classList.toggle('on', n > 0);
+        dec.disabled = n <= 0;
+        inc.disabled = n >= max;
+        outEl.textContent = isRipen
+          ? (n > 0 ? '−' + (item.per * n) : '0')
+          : String(Math.round(item.base * corr(n)));
+      }
+      dec.addEventListener('click', function () { state[item.id] = clamp(state[item.id] - 1, 0, max); sync(); recompute(); });
+      inc.addEventListener('click', function () { state[item.id] = clamp(state[item.id] + 1, 0, max); sync(); recompute(); });
+      syncers.push(sync);
+      sync();
+      return el;
+    }
+
+    INCIDENTS.forEach(function (i) { host.appendChild(makeRow(i, false)); });
+    var ripenHost = document.getElementById('calc-ripen');
+    if (ripenHost) RIPEN.forEach(function (r) { ripenHost.appendChild(makeRow(r, true)); });
+
+    var elScore   = document.getElementById('calc-score');
+    var elVerdict = document.getElementById('calc-verdict');
+    var elPin     = document.getElementById('calc-pin');
+    var elRaw     = document.getElementById('calc-raw');
+    var elRipTot  = document.getElementById('calc-ripen-total');
+    var elFinal   = document.getElementById('calc-final');
+
+    function recompute() {
+      var raw = 0;
+      INCIDENTS.forEach(function (i) { raw += i.base * corr(state[i.id]); });
+      raw = Math.round(raw);
+      var ripen = 0;
+      RIPEN.forEach(function (r) { ripen += r.per * state[r.id]; });
+      var score = clamp(raw - ripen, 0, 1000);
+      var b = band(score);
+      if (elScore)   elScore.textContent = score;
+      if (elVerdict) { elVerdict.textContent = b[0]; elVerdict.className = 'calc__verdict ' + b[1]; }
+      if (elPin)     elPin.style.left = (score / 1000 * 100) + '%';
+      if (elRaw)     elRaw.textContent = raw;
+      if (elRipTot)  elRipTot.textContent = '−' + ripen;
+      if (elFinal)   elFinal.textContent = score;
+    }
+
+    var reset = document.getElementById('calc-reset');
+    if (reset) reset.addEventListener('click', function () {
+      Object.keys(state).forEach(function (k) { state[k] = 0; });
+      syncers.forEach(function (fn) { fn(); });
+      recompute();
+    });
+
+    recompute();
+  })();
+
   /* ---- Year stamp -------------------------------------------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();

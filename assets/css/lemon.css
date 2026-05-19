@@ -218,6 +218,52 @@ strong { font-weight: 700; color: var(--ink); }
 .meter__pin::after { content: ""; position: absolute; top: -7px; left: 50%; transform: translateX(-50%); width: 14px; height: 14px; background: var(--ink); border-radius: 50%; }
 .meter__labels { display: flex; justify-content: space-between; margin-top: 1.2rem; font-family: var(--mono); font-size: .72rem; color: var(--ink-3); }
 
+/* ---- Lemon Score calculator ---------------------------------- */
+.calc { display: grid; grid-template-columns: 1.35fr .85fr; gap: 1.5rem; align-items: start; }
+.calc__panel { background: var(--card); border: 2.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow-pop); padding: 1.4rem 1.6rem 1.6rem; }
+.calc__legend { display: grid; grid-template-columns: 1fr 7.4rem 4rem; gap: 1rem; font-family: var(--mono); font-size: .67rem; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); padding-bottom: .6rem; border-bottom: 2.5px solid var(--ink); }
+.calc__legend span:nth-child(2) { text-align: center; }
+.calc__legend span:nth-child(3) { text-align: right; }
+.cinc { display: grid; grid-template-columns: 1fr 7.4rem 4rem; gap: 1rem; align-items: center; padding: .6rem 0; border-bottom: 2px dashed var(--line); }
+.cinc:last-child { border-bottom: 0; }
+.cinc__name { font-weight: 600; font-size: .93rem; color: var(--ink-2); }
+.cinc.on .cinc__name { color: var(--ink); }
+.cinc__base { font-family: var(--mono); font-size: .69rem; color: var(--ink-3); }
+.cinc__ctl { display: flex; align-items: center; justify-content: center; gap: .4rem; }
+.cstep { width: 28px; height: 28px; border: 2px solid var(--ink); border-radius: 4px; font-weight: 800; font-size: 1rem; background: var(--card); display: grid; place-items: center; line-height: 1; transition: background .12s ease; }
+.cstep:hover:not(:disabled) { background: var(--lemon); }
+.cstep:disabled { opacity: .28; cursor: not-allowed; }
+.cinc__n { font-family: var(--mono); font-weight: 700; min-width: 1rem; text-align: center; font-size: .95rem; }
+.cinc__out { font-family: var(--serif); font-weight: 700; font-size: 1.05rem; text-align: right; color: var(--line); }
+.cinc.on .cinc__out { color: var(--flag); }
+.cinc--ripen.on .cinc__out { color: var(--peach-deep, #c45f3a); }
+.calc__ripen { margin-top: 1.3rem; padding-top: 1.2rem; border-top: 2.5px solid var(--ink); }
+.calc__ripen h4 { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--peach-deep, #c45f3a); margin-bottom: .3rem; }
+
+.calc__result { background: var(--ink); color: var(--paper); border: 2.5px solid var(--ink); border-radius: var(--radius); padding: 1.8rem 1.7rem; position: sticky; top: 84px; }
+.calc__stamp { font-family: var(--mono); font-size: .64rem; letter-spacing: .15em; font-weight: 700; color: var(--lemon-br); }
+.calc__score { font-family: var(--serif); font-size: 4.8rem; font-weight: 700; line-height: 1; color: var(--paper); margin-top: .2rem; }
+.calc__score small { font-size: 1.2rem; color: #8c856f; }
+.calc__verdict { font-family: var(--mono); font-size: .82rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin: .35rem 0 1.2rem; }
+.calc__verdict.is-peach { color: var(--peach-br); }
+.calc__verdict.is-zest  { color: var(--lemon-br); }
+.calc__verdict.is-sour  { color: #ec6a5c; }
+.calc__meter { height: 20px; border: 2px solid var(--paper); border-radius: 10px; overflow: hidden; display: flex; position: relative; }
+.calc__meter i { height: 100%; }
+.calc__meter i:nth-child(1){ background: var(--peach); flex: 25; }
+.calc__meter i:nth-child(2){ background: var(--lemon-br); flex: 30; }
+.calc__meter i:nth-child(3){ background: var(--lemon); flex: 21; }
+.calc__meter i:nth-child(4){ background: var(--sour); flex: 24; }
+.calc__pin { position: absolute; top: -6px; width: 4px; height: 32px; background: var(--paper); border: 1px solid var(--ink); transition: left .45s cubic-bezier(.2,.7,.2,1); }
+.calc__break { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid #3a3527; font-family: var(--mono); font-size: .8rem; color: #c6bea5; display: flex; flex-direction: column; gap: .45rem; }
+.calc__break span { display: flex; justify-content: space-between; }
+.calc__break .tot { color: var(--lemon-br); font-weight: 700; }
+.calc__reset { margin-top: 1.2rem; width: 100%; justify-content: center; }
+@media (max-width: 880px) {
+  .calc { grid-template-columns: 1fr; }
+  .calc__result { position: static; }
+}
+
 /* ---- Cards & grids ------------------------------------------- */
 .grid { display: grid; gap: 1.4rem; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }

@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/lemon.css?v=2">
+<link rel="stylesheet" href="assets/css/lemon.css?v=3">
 </head>
 <body>
 
@@ -56,6 +56,9 @@
     <span class="kicker reveal">The mechanism</span>
     <h1 class="display reveal" data-d="1" style="margin:1.4rem 0 1.4rem;max-width:16ch;">Severity in. <em>Expiry</em> out.</h1>
     <p class="lede reveal" data-d="2" style="max-width:42rem;">The Lemon Score is a demerit engine. Bad behaviour adds points by how bad it was. Good behaviour — and plain old time — takes them back off. Here's exactly how the number moves.</p>
+    <div class="hero__cta reveal" data-d="3" style="margin-top:1.7rem;">
+      <a class="btn btn--lemon" href="#calculator">Try the live calculator <span class="arrow">→</span></a>
+    </div>
   </div>
 </section>
 
@@ -192,6 +195,41 @@
   </div>
 </section>
 
+<!-- ===== CALCULATOR ===== -->
+<section class="section band" id="calculator">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker">Try it yourself</span>
+      <h2>Build a Lemon Score.</h2>
+      <p class="lede">You're the hirer. Dial in what a candidate has on record — and how many separate employers logged each thing. Two agencies flagging the same trait is where it turns sour, fast.</p>
+    </div>
+    <div class="calc reveal" data-d="1">
+      <div class="calc__panel">
+        <div class="calc__legend"><span>Incident on record</span><span>Employers logged</span><span>Points</span></div>
+        <div id="calc-incidents"></div>
+        <div class="calc__ripen">
+          <h4>🍑 Ripening — earn the score back down</h4>
+          <div class="calc__legend"><span>Positive signal</span><span>Count</span><span>Offset</span></div>
+          <div id="calc-ripen"></div>
+        </div>
+      </div>
+      <aside class="calc__result">
+        <div class="calc__stamp">LEMON SCORE · LIVE</div>
+        <div class="calc__score"><span id="calc-score">0</span><small> / 1000</small></div>
+        <div class="calc__verdict is-peach" id="calc-verdict">Peach — safe hire</div>
+        <div class="calc__meter"><i></i><i></i><i></i><i></i><span class="calc__pin" id="calc-pin" style="left:0%"></span></div>
+        <div class="calc__break">
+          <span>Raw incident points<b id="calc-raw">0</b></span>
+          <span>Ripening offsets<b id="calc-ripen-total">−0</b></span>
+          <span class="tot">Lemon Score<b id="calc-final">0</b></span>
+        </div>
+        <button class="btn btn--ghost calc__reset" id="calc-reset" type="button">Reset all</button>
+      </aside>
+    </div>
+    <p class="note reveal" data-d="1" style="margin-top:1.5rem;">The maths, in the open: each incident scores <strong>base × m(n)</strong>, where <strong>n</strong> is the number of independent employers who logged it and the corroboration multiplier is <strong>m(n) = 0.25n² + 0.75n</strong> — one report counts ×1, two ×2.5, three ×4.5. Points sum, ripening offsets subtract, and the Lemon Score is clamped to 0–1000.</p>
+  </div>
+</section>
+
 <!-- ===== CTA ===== -->
 <section class="section band-lemon cta-band">
   <div class="wrap" style="max-width:46rem;">
@@ -247,6 +285,6 @@
   </div>
 </footer>
 
-<script src="assets/js/lemon.js?v=2"></script>
+<script src="assets/js/lemon.js?v=3"></script>
 </body>
 </html>
