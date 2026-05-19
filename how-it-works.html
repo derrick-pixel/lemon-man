@@ -62,8 +62,43 @@
   </div>
 </section>
 
+<!-- ===== CALCULATOR ===== -->
+<section class="section band" id="calculator">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="kicker">Try it — no sign-up</span>
+      <h2>Build a Lemon Score.</h2>
+      <p class="lede">You're the hirer. Dial in what a candidate has on record — and how many separate employers logged each thing. Two agencies flagging the same trait is where it turns sour, fast.</p>
+    </div>
+    <div class="calc reveal" data-d="1">
+      <div class="calc__panel">
+        <div class="calc__legend"><span>Incident on record</span><span>Employers logged</span><span>Points</span></div>
+        <div id="calc-incidents"></div>
+        <div class="calc__ripen">
+          <h4>🍑 Ripening — earn the score back down</h4>
+          <div class="calc__legend"><span>Positive signal</span><span>Count</span><span>Offset</span></div>
+          <div id="calc-ripen"></div>
+        </div>
+      </div>
+      <aside class="calc__result">
+        <div class="calc__stamp">LEMON SCORE · LIVE</div>
+        <div class="calc__score"><span id="calc-score">0</span><small> / 1000</small></div>
+        <div class="calc__verdict is-peach" id="calc-verdict">Peach — safe hire</div>
+        <div class="calc__meter"><i></i><i></i><i></i><i></i><span class="calc__pin" id="calc-pin" style="left:0%"></span></div>
+        <div class="calc__break">
+          <span>Raw incident points<b id="calc-raw">0</b></span>
+          <span>Ripening offsets<b id="calc-ripen-total">−0</b></span>
+          <span class="tot">Lemon Score<b id="calc-final">0</b></span>
+        </div>
+        <button class="btn btn--ghost calc__reset" id="calc-reset" type="button">Reset all</button>
+      </aside>
+    </div>
+    <p class="note reveal" data-d="1" style="margin-top:1.5rem;">The maths, in the open: each incident scores <strong>base × m(n)</strong>, where <strong>n</strong> is the number of independent employers who logged it and the corroboration multiplier is <strong>m(n) = 0.25n² + 0.75n</strong> — one report counts ×1, two ×2.5, three ×4.5. Points sum, ripening offsets subtract, and the Lemon Score is clamped to 0–1000.</p>
+  </div>
+</section>
+
 <!-- ===== 01 INCIDENTS ===== -->
-<section class="section band" id="engine">
+<section class="section" id="engine">
   <div class="wrap">
     <div class="head reveal">
       <span class="kicker">01 — Points go up</span>
@@ -92,7 +127,7 @@
 </section>
 
 <!-- ===== 02 QUADRATIC ===== -->
-<section class="section">
+<section class="section band">
   <div class="wrap">
     <div class="grid grid-2" style="gap:clamp(2rem,5vw,4.5rem); align-items:center;">
       <div class="reveal">
@@ -192,41 +227,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ===== CALCULATOR ===== -->
-<section class="section band" id="calculator">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="kicker">Try it yourself</span>
-      <h2>Build a Lemon Score.</h2>
-      <p class="lede">You're the hirer. Dial in what a candidate has on record — and how many separate employers logged each thing. Two agencies flagging the same trait is where it turns sour, fast.</p>
-    </div>
-    <div class="calc reveal" data-d="1">
-      <div class="calc__panel">
-        <div class="calc__legend"><span>Incident on record</span><span>Employers logged</span><span>Points</span></div>
-        <div id="calc-incidents"></div>
-        <div class="calc__ripen">
-          <h4>🍑 Ripening — earn the score back down</h4>
-          <div class="calc__legend"><span>Positive signal</span><span>Count</span><span>Offset</span></div>
-          <div id="calc-ripen"></div>
-        </div>
-      </div>
-      <aside class="calc__result">
-        <div class="calc__stamp">LEMON SCORE · LIVE</div>
-        <div class="calc__score"><span id="calc-score">0</span><small> / 1000</small></div>
-        <div class="calc__verdict is-peach" id="calc-verdict">Peach — safe hire</div>
-        <div class="calc__meter"><i></i><i></i><i></i><i></i><span class="calc__pin" id="calc-pin" style="left:0%"></span></div>
-        <div class="calc__break">
-          <span>Raw incident points<b id="calc-raw">0</b></span>
-          <span>Ripening offsets<b id="calc-ripen-total">−0</b></span>
-          <span class="tot">Lemon Score<b id="calc-final">0</b></span>
-        </div>
-        <button class="btn btn--ghost calc__reset" id="calc-reset" type="button">Reset all</button>
-      </aside>
-    </div>
-    <p class="note reveal" data-d="1" style="margin-top:1.5rem;">The maths, in the open: each incident scores <strong>base × m(n)</strong>, where <strong>n</strong> is the number of independent employers who logged it and the corroboration multiplier is <strong>m(n) = 0.25n² + 0.75n</strong> — one report counts ×1, two ×2.5, three ×4.5. Points sum, ripening offsets subtract, and the Lemon Score is clamped to 0–1000.</p>
   </div>
 </section>
 
