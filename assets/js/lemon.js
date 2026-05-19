@@ -44,20 +44,35 @@
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* ---- Score gauge: arc draw + count-up ---------------------- */
+  /* ---- Lemon Score band → arc colour ------------------------- */
+  // High score = sour = bad. Low score = peach = clean.
+  function bandColour(score) {
+    if (score < 250) return getCSS('--peach');
+    if (score < 550) return getCSS('--lemon-br');
+    if (score < 760) return getCSS('--lemon');
+    return getCSS('--sour');
+  }
+  function getCSS(v) {
+    return getComputedStyle(document.documentElement).getPropertyValue(v).trim() || '#e3a400';
+  }
+
+  /* ---- Lemon Score gauge: arc draw + count-up ---------------- */
   document.querySelectorAll('[data-gauge]').forEach(function (g) {
     var target = parseInt(g.getAttribute('data-gauge'), 10) || 0;
     var max = 1000;
     var arc = g.querySelector('.gauge__arc');
     var num = g.querySelector('[data-gauge-num]');
     var len = arc ? arc.getTotalLength() : 0;
-    if (arc) { arc.style.strokeDasharray = len; arc.style.strokeDashoffset = len; }
+    if (arc) {
+      arc.style.strokeDasharray = len;
+      arc.style.strokeDashoffset = len;
+      arc.style.stroke = bandColour(target);
+    }
 
     var fired = false;
     var run = function () {
       if (fired) return; fired = true;
       if (arc) {
-        // animate dashoffset to reflect score fraction of a 270deg arc
         requestAnimationFrame(function () {
           arc.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)';
           arc.style.strokeDashoffset = len - (len * (target / max));
@@ -83,6 +98,26 @@
     } else { run(); }
   });
 
+  /* ---- Score-band meter pin ---------------------------------- */
+  document.querySelectorAll('[data-meter]').forEach(function (m) {
+    var score = parseInt(m.getAttribute('data-meter'), 10) || 0;
+    var pin = m.querySelector('.meter__pin');
+    if (!pin) return;
+    var place = function () { pin.style.left = Math.min(score / 1000 * 100, 100) + '%'; };
+    if ('IntersectionObserver' in window) {
+      var ob = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) {
+            pin.style.transition = 'left 1.5s cubic-bezier(.2,.7,.2,1)';
+            place(); ob.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      pin.style.left = '0%';
+      ob.observe(m);
+    } else { place(); }
+  });
+
   /* ---- Early-access form (front-end stub) -------------------- */
   document.querySelectorAll('.access-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
@@ -93,12 +128,12 @@
       var ok = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
       if (!msg) return;
       if (ok) {
-        msg.style.color = 'var(--rind)';
-        msg.textContent = '✓ Logged. The team will be in touch about the pilot cohort.';
+        msg.style.color = 'var(--peach-deep, #c45f3a)';
+        msg.textContent = '🍋 Squeezed in. We will be in touch about the pilot.';
         form.reset();
       } else {
         msg.style.color = 'var(--flag)';
-        msg.textContent = 'Enter a valid work email address.';
+        msg.textContent = 'That email looks a little sour. Try again.';
       }
     });
   });

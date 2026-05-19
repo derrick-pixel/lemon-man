@@ -4,30 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How it works — Lemon Man</title>
-<meta name="description" content="The mechanism: a fixed factual record schema, a 21-day right of reply, and a 0–1000 reliability score that decays over time.">
+<meta name="description" content="The Lemon Score engine: severity-weighted points, a quadratic corroboration multiplier, automatic decay, and a 24–72 hour contest window on every upload.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="How Lemon Man works">
-<meta property="og:description" content="A fixed record schema, a 21-day right of reply, and a reliability score that decays over time.">
+<meta property="og:title" content="How the Lemon Score works">
+<meta property="og:description" content="Severity in, expiry out. A demerit engine for bad hires.">
 <meta property="og:image" content="assets/img/og-image.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/lemon.css?v=1">
+<link rel="stylesheet" href="assets/css/lemon.css?v=2">
 </head>
 <body>
 
 <header class="nav" id="nav">
   <a class="nav__brand" href="index.html">
     <svg class="nav__mark" viewBox="0 0 32 32" aria-hidden="true">
-      <circle cx="16" cy="16" r="11" fill="none" stroke="#d99800" stroke-width="2"/>
-      <g stroke="#d99800" stroke-width="1.5" stroke-linecap="round">
+      <circle cx="16" cy="16" r="11" fill="#e3a400" stroke="#211d12" stroke-width="2"/>
+      <g stroke="#211d12" stroke-width="1.4" stroke-linecap="round">
         <line x1="16" y1="16" x2="16" y2="6.5"/><line x1="16" y1="16" x2="24.2" y2="11.2"/>
         <line x1="16" y1="16" x2="24.2" y2="20.8"/><line x1="16" y1="16" x2="16" y2="25.5"/>
         <line x1="16" y1="16" x2="7.8" y2="20.8"/><line x1="16" y1="16" x2="7.8" y2="11.2"/>
       </g>
-      <circle cx="16" cy="16" r="2.4" fill="#f3c63f"/>
+      <circle cx="16" cy="16" r="2.6" fill="#211d12"/>
     </svg>
     <span>Lemon&nbsp;Man</span>
   </a>
@@ -35,10 +35,10 @@
     <a href="how-it-works.html" aria-current="page">How it works</a>
     <a href="for-workers.html">For workers</a>
     <a href="pricing.html">Pricing</a>
-    <a href="trust.html">Trust &amp; law</a>
+    <a href="trust.html">The Squeeze</a>
   </nav>
   <div class="nav__right">
-    <a class="btn btn--zest" href="index.html#access">Request access</a>
+    <a class="btn btn--lemon" href="index.html#access">Request access</a>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false"><span></span></button>
   </div>
 </header>
@@ -46,209 +46,160 @@
   <a href="how-it-works.html">How it works</a>
   <a href="for-workers.html">For workers</a>
   <a href="pricing.html">Pricing</a>
-  <a href="trust.html">Trust &amp; law</a>
-  <a class="btn btn--zest" href="index.html#access">Request access</a>
+  <a href="trust.html">The Squeeze</a>
+  <a class="btn btn--lemon" href="index.html#access">Request access</a>
 </div>
 
-<!-- ===== PAGE HEAD ===== -->
+<!-- ===== HEAD ===== -->
 <section class="hero" style="padding-bottom:clamp(2.5rem,5vw,4rem);">
   <div class="wrap">
     <span class="kicker reveal">The mechanism</span>
-    <h1 class="display reveal" data-d="1" style="margin:1.4rem 0 1.4rem;max-width:18ch;">How a record becomes a <em>score.</em></h1>
-    <p class="lede reveal" data-d="2" style="max-width:40rem;">Three things make Lemon&nbsp;Man defensible where a blacklist would not be: a fixed factual schema, a notification window before anything is published, and a score that decays. Here is the full path.</p>
+    <h1 class="display reveal" data-d="1" style="margin:1.4rem 0 1.4rem;max-width:16ch;">Severity in. <em>Expiry</em> out.</h1>
+    <p class="lede reveal" data-d="2" style="max-width:42rem;">The Lemon Score is a demerit engine. Bad behaviour adds points by how bad it was. Good behaviour — and plain old time — takes them back off. Here's exactly how the number moves.</p>
   </div>
 </section>
 
-<!-- ===== 01 THE SCHEMA ===== -->
-<section class="section band">
+<!-- ===== 01 INCIDENTS ===== -->
+<section class="section band" id="engine">
   <div class="wrap">
     <div class="head reveal">
-      <span class="kicker">01 — The structured record</span>
-      <h2>No free text. A fixed factual schema.</h2>
-      <p class="lede">Lemon&nbsp;Man never stores an opinion. Every adverse record is a set of facts against a closed schema — and a record missing any mandatory field is rejected before it is ever stored.</p>
+      <span class="kicker">01 — Points go up</span>
+      <h2>Every lemon trait has a price.</h2>
+      <p class="lede">Uploads aren't free text and they aren't vibes. Each one maps to a fixed incident type with a fixed point value — heavier for the things that actually torch a client contract.</p>
     </div>
-    <div class="grid grid-2" style="gap:clamp(2rem,5vw,4rem); align-items:start;">
+    <div class="reveal" data-d="1" style="background:var(--card);border:2.5px solid var(--ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-pop);">
+      <table class="dtable">
+        <thead><tr><th>Incident type</th><th>Why it stings</th><th class="pts">Lemon points</th></tr></thead>
+        <tbody>
+          <tr><td>Chronically late</td><td>Per logged instance</td><td class="pts up">+45</td></tr>
+          <tr><td>Q4 medical-leave clearing</td><td>Suspicious seasonal pattern</td><td class="pts up">+90</td></tr>
+          <tr><td>Last-minute bail (&lt;24h)</td><td>Promised the shift, vanished</td><td class="pts up">+130</td></tr>
+          <tr><td>Insubordination + disciplinary action</td><td>Formal write-up on file</td><td class="pts up">+150</td></tr>
+          <tr><td>Suspected malingering MC</td><td>Documented MC pattern</td><td class="pts up">+160</td></tr>
+          <tr><td>No-show (full shift)</td><td>Client backfill scramble</td><td class="pts up">+200</td></tr>
+          <tr><td>Contract abandonment</td><td>Walked mid-engagement</td><td class="pts up">+260</td></tr>
+          <tr><td>Credential falsification</td><td>Lied on the way in</td><td class="pts up">+380</td></tr>
+          <tr><td>Data-secrecy breach (with finding)</td><td>Carried your data out the door</td><td class="pts up">+420</td></tr>
+          <tr><td>Theft (with police report)</td><td>The full sour</td><td class="pts up">+500</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note reveal" data-d="1" style="margin-top:1.2rem;">A starter set — the full engine covers 50+ incident types. A comprehensive, evidence-backed upload (3 tokens) lands the heaviest weighting.</p>
+  </div>
+</section>
+
+<!-- ===== 02 QUADRATIC ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:clamp(2rem,5vw,4.5rem); align-items:center;">
       <div class="reveal">
-        <div class="record">
-          <div class="record__bar">
-            <span>ADVERSE RECORD · SCHEMA</span>
-            <span class="dotrow"><i style="background:#b23a2f"></i><i style="background:#d99800"></i><i style="background:#2f6b4f"></i></span>
-          </div>
-          <div class="record__body">
-            <div class="record__field"><span class="k">Event type</span><span class="v">Closed list — see right</span></div>
-            <div class="record__field"><span class="k">Date &amp; shift ref</span><span class="v req">Required</span></div>
-            <div class="record__field"><span class="k">Evidence attached</span><span class="v req">Required — roster, comms, MC, letter</span></div>
-            <div class="record__field"><span class="k">Mitigating context</span><span class="v req">Required — declared yes/no + detail</span></div>
-            <div class="record__field"><span class="k">Worker notified</span><span class="v req">Required — yes/no + date</span></div>
-            <div class="record__field"><span class="k">Due inquiry conducted</span><span class="v req">Required — yes/no + detail</span></div>
-            <div class="record__field"><span class="k">Reported to MOM / regulator</span><span class="v req">Required — yes/no + reference</span></div>
-            <div class="record__field"><span class="k">Free-text "attitude" field</span><span class="v miss">Not permitted</span></div>
-          </div>
-        </div>
-        <p class="note" style="margin-top:1rem;">A mandatory mitigating-context field closes the "misleading by omission" gap: a late cancellation without the fact that the worker was hospitalised is not a fair record.</p>
+        <span class="kicker">02 — The corroboration multiplier</span>
+        <h2 style="margin:1rem 0 1.2rem;">One employer is a complaint. Two is a <em>pattern.</em></h2>
+        <p class="lede" style="margin-bottom:1.1rem;">When a second — or third — employer logs the same trait on the same person, the points don't just add. They multiply, on a quadratic curve. A repeated lemon gets sour fast.</p>
+        <p class="note">A corroborated lemon is a real lemon. Independent agencies seeing the same behaviour is the strongest signal the platform has — so the score treats it that way.</p>
       </div>
       <div class="reveal" data-d="1">
-        <h3 style="margin-bottom:1rem;">Event types — the closed list</h3>
-        <div class="ruled">
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>No-show</span><span class="tag tag--neg">12 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Late cancellation (&lt;24h)</span><span class="tag tag--neg">12 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Excessive unsupported medical leave</span><span class="tag tag--neg">18 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Insubordination with disciplinary action</span><span class="tag tag--neg">18 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Contract abandonment</span><span class="tag tag--neg">24 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Data-secrecy breach with finding</span><span class="tag tag--neg">36 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Falsification of credentials</span><span class="tag tag--neg">36 mo</span></div>
-          <div style="padding:.8rem 0;display:flex;justify-content:space-between;gap:1rem;"><span>Theft with police report</span><span class="tag tag--neg">60 mo</span></div>
+        <div class="card" style="padding:1.8rem;">
+          <div style="font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.1rem;">No-show · base +200</div>
+          <div style="display:flex;flex-direction:column;gap:.9rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--line);padding-bottom:.7rem;"><span>1 employer reports</span><span style="font-family:var(--serif);font-size:1.5rem;font-weight:700;">200</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed var(--line);padding-bottom:.7rem;"><span>2 employers report</span><span style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--lemon);">~500</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;"><span>3 employers report</span><span style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--sour);">~900</span></div>
+          </div>
+          <p style="font-family:var(--mono);font-size:.74rem;color:var(--ink-3);margin-top:1.1rem;">Illustrative. Pucker-up territory after three.</p>
         </div>
-        <p style="font-size:.9rem;margin-top:1rem;color:var(--ink-3);">No event outside this list can be filed. Each type carries a hard expiry — the figure shown is when the record is purged.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== 02 THE REPLY WINDOW ===== -->
+<!-- ===== 03 DECAY ===== -->
+<section class="section band-ink">
+  <div class="wrap">
+    <div class="grid grid-2" style="gap:clamp(2rem,5vw,4.5rem); align-items:center;">
+      <div class="reveal">
+        <span class="kicker kicker--plain">03 — Points come back down</span>
+        <h2 style="margin:1rem 0 1.2rem;">A lemon can ripen into a peach.</h2>
+        <p class="lede">The score isn't a life sentence. Stay clean and it decays on its own. Put in real effort and it drops faster.</p>
+        <ul style="display:flex;flex-direction:column;gap:.8rem;margin-top:1.6rem;">
+          <li style="padding-left:1.7rem;position:relative;color:#cbc3aa;"><span style="position:absolute;left:0;">🍑</span> <strong style="color:var(--paper);">6–12 clean months</strong>, no new uploads — the score steps down a band.</li>
+          <li style="padding-left:1.7rem;position:relative;color:#cbc3aa;"><span style="position:absolute;left:0;">📜</span> <strong style="color:var(--paper);">2 verified good testimonials</strong> from recent employers — points off.</li>
+          <li style="padding-left:1.7rem;position:relative;color:#cbc3aa;"><span style="position:absolute;left:0;">🎓</span> <strong style="color:var(--paper);">2 WSQ training courses</strong> — willingness to upskill signals a real turnaround.</li>
+          <li style="padding-left:1.7rem;position:relative;color:#cbc3aa;"><span style="position:absolute;left:0;">✍️</span> <strong style="color:var(--paper);">A quality write-in</strong> — engaging with the platform is itself a positive signal.</li>
+        </ul>
+        <a class="btn btn--peach" href="for-workers.html" style="margin-top:1.7rem;">How workers un-lemon <span class="arrow">→</span></a>
+      </div>
+      <div class="reveal" data-d="1">
+        <div class="gauge" data-gauge="180">
+          <div class="gauge__card" data-stamp="RIPENED">
+            <svg class="gauge__svg" viewBox="0 0 220 132" aria-hidden="true">
+              <path d="M20 122 A90 90 0 0 1 200 122" fill="none" stroke="var(--line)" stroke-width="12" stroke-linecap="round"/>
+              <path class="gauge__arc" d="M20 122 A90 90 0 0 1 200 122" fill="none" stroke-width="12" stroke-linecap="round"/>
+            </svg>
+            <div class="gauge__num"><span data-gauge-num>0</span><small> / 1000</small></div>
+            <div class="gauge__verdict is-peach">Peach — cleared</div>
+            <div class="gauge__rows">
+              <div class="gauge__row"><span>Clean months</span><span class="tag tag--peach">14 running</span></div>
+              <div class="gauge__row"><span>Good testimonials</span><span class="tag tag--peach">3 verified</span></div>
+              <div class="gauge__row"><span>WSQ courses</span><span class="tag tag--peach">2 done</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="note" data-d="1" style="margin-top:1rem;border-color:var(--peach);">Same person, 18 months later. Score 720 → 180. That's the platform working.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 CONTEST WINDOW ===== -->
 <section class="section">
   <div class="wrap">
     <div class="head reveal">
-      <span class="kicker">02 — The reply window</span>
-      <h2>The worker is told before anyone else.</h2>
-      <p class="lede">A blacklist publishes first and argues later. Lemon&nbsp;Man inverts that. A record is held — invisible to every employer — until the worker has had a full window to reply.</p>
+      <span class="kicker">04 — Every upload is contestable</span>
+      <h2>Nothing goes live in the dark.</h2>
+      <p class="lede">Frivolous uploads would poison the well. So every record runs a contest window before it counts — and the employer pays to file it, which keeps the trigger-happy ones honest.</p>
     </div>
     <div class="steps reveal" data-d="1">
       <div class="step">
         <div class="step__n"></div>
         <div>
-          <h3>Filed &amp; held</h3>
-          <p>The moment an employer submits a record, the worker is notified — substance of the record, the contributing employer, and the dispute process. The record is <strong>not visible to anyone</strong> during this period.</p>
+          <h3>Employer files the upload</h3>
+          <p>A structured incident report, evidence attached, against a paid token. Money on the line means no idle grudges. The record is queued, not yet visible.</p>
         </div>
       </div>
       <div class="step">
         <div class="step__n"></div>
         <div>
-          <h3>21 days to reply</h3>
-          <p>The worker has 21 days — matching the MAS reference-check standard — to accept, add context, or formally dispute with their own evidence.</p>
+          <h3>The worker is pinged — within 24 hours</h3>
+          <p>An OTP-verified alert goes to the worker. They have the contest window to accept it, or push back with their side of the story.</p>
         </div>
       </div>
       <div class="step">
         <div class="step__n"></div>
         <div>
-          <h3>Disputed records stay hidden</h3>
-          <p>If a record is disputed, it remains hidden — not merely flagged — until an independent review concludes. A contested record never causes real-time economic harm.</p>
+          <h3>Uncontested? It goes live in 24–72 hours</h3>
+          <p>No response, no dispute — the record publishes and the points land on the Lemon Score.</p>
         </div>
       </div>
       <div class="step">
         <div class="step__n"></div>
         <div>
-          <h3>Published — or expired</h3>
-          <p>Only an undisputed or review-upheld record becomes visible to verified employers. From that point its decay clock runs; on expiry it is purged.</p>
+          <h3>Contested? It goes to mediation</h3>
+          <p>The worker can reach the ex-employer to resolve it. A quality, corroborated rebuttal mitigates the score. A flimsy one doesn't.</p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 03 THE SCORE ===== -->
-<section class="section band-ink">
-  <div class="wrap">
-    <div class="grid grid-2" style="gap:clamp(2rem,5vw,4.5rem); align-items:center;">
-      <div class="reveal">
-        <span class="kicker kicker--plain">03 — The scoring engine</span>
-        <h2 style="margin:1rem 0 1.2rem;">A 0–1000 reliability score, credit-bureau style.</h2>
-        <p class="lede">A verified employer never sees raw allegations dumped on a screen. They see a single score, computed from four weighted inputs — and a confidence band that refuses to guess.</p>
-        <ul style="display:flex;flex-direction:column;gap:.8rem;margin-top:1.6rem;">
-          <li style="padding-left:1.6rem;position:relative;color:#cfc7af;"><span style="position:absolute;left:0;color:var(--zest);">◆</span> <strong style="color:var(--paper);">Adverse records</strong> — weighted by severity, recency, corroboration across employers, and dispute status.</li>
-          <li style="padding-left:1.6rem;position:relative;color:#cfc7af;"><span style="position:absolute;left:0;color:var(--zest);">◆</span> <strong style="color:var(--paper);">Positive endorsements</strong> — weighted by issuer credibility and recency.</li>
-          <li style="padding-left:1.6rem;position:relative;color:#cfc7af;"><span style="position:absolute;left:0;color:var(--zest);">◆</span> <strong style="color:var(--paper);">Tenure &amp; shift count</strong> — raw experience on record.</li>
-          <li style="padding-left:1.6rem;position:relative;color:#cfc7af;"><span style="position:absolute;left:0;color:var(--zest);">◆</span> <strong style="color:var(--paper);">Training certifications</strong> — WSQ and MOM-recognised credentials.</li>
-        </ul>
-        <p class="note" style="margin-top:1.6rem;border-color:var(--zest);color:#cfc7af;">A profile with fewer than three records returns <strong style="color:var(--paper);">"insufficient data"</strong> — never a spurious number. Thin data is the single largest defamation risk, so the engine declines to score it.</p>
-      </div>
-      <div class="reveal" data-d="1">
-        <div class="gauge" data-gauge="681" style="max-width:380px;">
-          <div class="gauge__card">
-            <svg class="gauge__svg" viewBox="0 0 220 132" aria-hidden="true">
-              <path d="M20 122 A90 90 0 0 1 200 122" fill="none" stroke="var(--line)" stroke-width="11" stroke-linecap="round"/>
-              <path class="gauge__arc" d="M20 122 A90 90 0 0 1 200 122" fill="none" stroke="var(--zest)" stroke-width="11" stroke-linecap="round"/>
-            </svg>
-            <div class="gauge__num"><span data-gauge-num>0</span><small> / 1000</small></div>
-            <div class="gauge__label">Pre-deployment lookup · verified employer view</div>
-            <div class="gauge__rows">
-              <div class="gauge__row"><span>Endorsements</span><span class="tag tag--pos">6 verified</span></div>
-              <div class="gauge__row"><span>Adverse — visible</span><span class="tag tag--neg">2 records</span></div>
-              <div class="gauge__row"><span>Adverse — held / disputed</span><span class="tag tag--neutral">hidden</span></div>
-              <div class="gauge__row"><span>WSQ certifications</span><span class="tag tag--pos">3 current</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== DECAY TABLE ===== -->
-<section class="section">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="kicker">Decay schedule</span>
-      <h2>Nothing is permanent.</h2>
-      <p class="lede">Severity sets the lookback. The most serious category mirrors the MAS five-year window; the lightest clears in a year. A worker's past does not follow them forever.</p>
-    </div>
-    <div class="reveal" data-d="1" style="background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;">
-      <table class="dtable">
-        <thead><tr><th>Record category</th><th>Behavioural basis</th><th>Lookback</th></tr></thead>
-        <tbody>
-          <tr><td>No-show / late cancellation</td><td>Reliability lapse, low corroboration burden</td><td>12 months</td></tr>
-          <tr><td>Pattern unsupported medical leave</td><td>Requires a documented pattern, not one instance</td><td>18 months</td></tr>
-          <tr><td>Data-secrecy breach (with finding)</td><td>Requires a formal investigation finding</td><td>36 months</td></tr>
-          <tr><td>Theft (with police report)</td><td>Mirrors the MAS five-year misconduct lookback</td><td>60 months</td></tr>
-          <tr><td>Positive endorsement</td><td>Verified employer endorsement</td><td>Persists</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note reveal" data-d="1" style="margin-top:1.2rem;">A structured rehabilitation pathway — WSQ training, fresh endorsements — can accelerate the expiry of adverse records ahead of schedule.</p>
-  </div>
-</section>
-
-<!-- ===== TWO FLOWS ===== -->
-<section class="section band">
-  <div class="wrap">
-    <div class="head reveal">
-      <span class="kicker">Both sides of the record</span>
-      <h2>What an employer does. What a worker does.</h2>
-    </div>
-    <div class="grid grid-2 reveal" data-d="1" style="gap:1.4rem;">
-      <div class="card">
-        <span class="card__ix">Employer / agency</span>
-        <h3 style="margin:.6rem 0 1rem;">Check before you deploy</h3>
-        <ul style="display:flex;flex-direction:column;gap:.6rem;">
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--zest);">→</span> Pre-deployment lookup by name, last 4 NRIC and DOB</li>
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--zest);">→</span> Structured adverse-record submission with mandatory evidence</li>
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--zest);">→</span> MAS-style reference requests with a 21-day response window</li>
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--zest);">→</span> Watchlists and alerts on workers already deployed</li>
-        </ul>
-      </div>
-      <div class="card">
-        <span class="card__ix">Worker</span>
-        <h3 style="margin:.6rem 0 1rem;">Hold your own record</h3>
-        <ul style="display:flex;flex-direction:column;gap:.6rem;">
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--rind);">→</span> Claim a profile with Singpass MyInfo verification</li>
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--rind);">→</span> Collect structured endorsements from verified employers</li>
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--rind);">→</span> Reply to, dispute, and rehabilitate adverse records</li>
-          <li style="padding-left:1.4rem;position:relative;font-size:.95rem;"><span style="position:absolute;left:0;color:var(--rind);">→</span> File counter-records against employers, same evidence standard</li>
-        </ul>
-        <a class="btn btn--ghost" href="for-workers.html" style="margin-top:1.2rem;">More for workers <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===== CTA ===== -->
-<section class="section cta-band">
+<section class="section band-lemon cta-band">
   <div class="wrap" style="max-width:46rem;">
-    <h2 class="reveal">See the schema run against your own roster.</h2>
-    <p class="lede reveal" data-d="1">Pilot operators get a walkthrough of the record schema, the scoring engine and the dispute workflow.</p>
+    <h2 class="reveal">Run the Lemon Score against your own roster.</h2>
+    <p class="lede reveal" data-d="1" style="color:var(--ink-2);">Pilot operators get a walkthrough of the engine, the incident catalogue and the contest flow.</p>
     <div class="reveal" data-d="2" style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;">
       <a class="btn btn--primary" href="index.html#access">Request pilot access <span class="arrow">→</span></a>
-      <a class="btn btn--ghost" href="trust.html">Read the legal architecture</a>
+      <a class="btn btn--ghost" href="trust.html">Read The Squeeze</a>
     </div>
   </div>
 </section>
@@ -259,17 +210,17 @@
       <div>
         <div class="foot__brand">
           <svg class="nav__mark" viewBox="0 0 32 32" aria-hidden="true">
-            <circle cx="16" cy="16" r="11" fill="none" stroke="#d99800" stroke-width="2"/>
-            <g stroke="#d99800" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="16" cy="16" r="11" fill="#e3a400" stroke="#211d12" stroke-width="2"/>
+            <g stroke="#211d12" stroke-width="1.4" stroke-linecap="round">
               <line x1="16" y1="16" x2="16" y2="6.5"/><line x1="16" y1="16" x2="24.2" y2="11.2"/>
               <line x1="16" y1="16" x2="24.2" y2="20.8"/><line x1="16" y1="16" x2="16" y2="25.5"/>
               <line x1="16" y1="16" x2="7.8" y2="20.8"/><line x1="16" y1="16" x2="7.8" y2="11.2"/>
             </g>
-            <circle cx="16" cy="16" r="2.4" fill="#f3c63f"/>
+            <circle cx="16" cy="16" r="2.6" fill="#211d12"/>
           </svg>
           <span>Lemon&nbsp;Man</span>
         </div>
-        <p class="foot__tag">The shared reliability network for shift, contract and freelance labour. An independent workforce-utility venture, built for Singapore.</p>
+        <p class="foot__tag">The candidate lemon platform. Helping Singapore's employers tell a lemon from a peach — before payday.</p>
       </div>
       <div class="foot__col">
         <h5>Platform</h5>
@@ -278,24 +229,24 @@
         <a href="pricing.html">Pricing</a>
       </div>
       <div class="foot__col">
-        <h5>Trust</h5>
-        <a href="trust.html">Trust &amp; law</a>
-        <a href="trust.html#pledge">What we will never do</a>
-        <a href="trust.html#mas">The MAS precedent</a>
+        <h5>Lemon stuff</h5>
+        <a href="trust.html">The Squeeze</a>
+        <a href="how-it-works.html#engine">The Lemon Score</a>
+        <a href="for-workers.html">Un-lemon yourself</a>
       </div>
       <div class="foot__col">
         <h5>Access</h5>
         <a href="index.html#access">Request pilot access</a>
-        <a href="pricing.html">Plans &amp; pricing</a>
+        <a href="pricing.html">Tokens &amp; plans</a>
       </div>
     </div>
     <div class="foot__bottom">
-      <span>© <span data-year>2026</span> Lemon&nbsp;Man · Workforce Reliability Network</span>
+      <span>© <span data-year>2026</span> Lemon&nbsp;Man · Candidate Lemon Platform</span>
       <span class="mono">Concept-stage venture — not a live service, offer or regulatory filing.</span>
     </div>
   </div>
 </footer>
 
-<script src="assets/js/lemon.js?v=1"></script>
+<script src="assets/js/lemon.js?v=2"></script>
 </body>
 </html>
