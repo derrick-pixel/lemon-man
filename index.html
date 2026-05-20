@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/css/lemon.css?v=11">
+<link rel="stylesheet" href="assets/css/lemon.css?v=12">
 </head>
 <body>
 
@@ -167,10 +167,16 @@
       <h2>You're not the only one squeezed.</h2>
       <p class="lede">Real grouses, fictionalised and anonymised. Same lemons, different roster.</p>
     </div>
-    <div class="confess-row reveal" data-d="1" id="confess-row">
-      <article class="confess-card"><blockquote class="confess-q"></blockquote><div class="confess-meta"><cite class="confess-c"></cite><span class="confess-t"></span></div></article>
-      <article class="confess-card"><blockquote class="confess-q"></blockquote><div class="confess-meta"><cite class="confess-c"></cite><span class="confess-t"></span></div></article>
-      <article class="confess-card"><blockquote class="confess-q"></blockquote><div class="confess-meta"><cite class="confess-c"></cite><span class="confess-t"></span></div></article>
+    <div class="confess-carousel reveal" data-d="1" id="confess-carousel">
+      <div class="confess-stage">
+        <button class="cf-nav cf-nav--prev" type="button" aria-label="Previous confession"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#211d12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 9 12l6 6"/></svg></button>
+        <article class="confess-card confess-card--solo">
+          <blockquote class="confess-q"></blockquote>
+          <div class="confess-meta"><cite class="confess-c"></cite><span class="confess-t"></span></div>
+        </article>
+        <button class="cf-nav cf-nav--next" type="button" aria-label="Next confession"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#211d12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 15 12 9 18"/></svg></button>
+      </div>
+      <div class="cf-dots" id="cf-dots"></div>
     </div>
     <p class="note reveal" data-d="2" style="text-align:center;margin-top:1.4rem;border-left:0;padding-left:0;">Composites, not real individuals — based on documented Singapore patterns.</p>
   </div>
@@ -320,6 +326,6 @@
   </div>
 </footer>
 
-<script src="assets/js/lemon.js?v=11"></script>
+<script src="assets/js/lemon.js?v=12"></script>
 </body>
 </html>

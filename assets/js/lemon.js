@@ -489,76 +489,103 @@
     recompute();
   })();
 
-  /* ---- Boss Confessions rotator ------------------------------ */
+  /* ---- Boss Confessions carousel ----------------------------- */
   (function () {
-    var row = document.getElementById('confess-row');
-    if (!row) return;
-    var cards = row.querySelectorAll('.confess-card');
-    if (!cards.length) return;
+    var car = document.getElementById('confess-carousel');
+    if (!car) return;
+    var stage = car.querySelector('.confess-stage') || car;
+    var card  = car.querySelector('.confess-card');
+    var prev  = car.querySelector('.cf-nav--prev');
+    var next  = car.querySelector('.cf-nav--next');
+    var dotsHost = car.querySelector('#cf-dots');
+    if (!card) return;
 
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var FALLBACK = [
-      { quote: "Three guys, three MCs, all dated Monday. Always Monday.",                  attrib: "F&B owner · Boon Lay",         trait: "malingering MC" },
-      { quote: "He claimed bird's nest as 'medication'. I claimed his bonus.",            attrib: "Bank ops · CBD",               trait: "expense fraud" },
-      { quote: "Took the deposit. Took the uniform. Took the next day off forever.",      attrib: "Events staffing · Bugis",      trait: "contract abandonment" }
+      { quote: "Three guys, three MCs, all dated Monday. Always Monday.",             attrib: "F&B owner · Boon Lay",       trait: "malingering MC" },
+      { quote: "He claimed bird's nest as 'medication'. I claimed his bonus.",        attrib: "Bank ops · CBD",             trait: "expense fraud" },
+      { quote: "Took the deposit. Took the uniform. Took the next day off forever.",  attrib: "Events staffing · Bugis",    trait: "contract abandonment" }
     ];
+    var items = [];
+    var idx = 0;
+    var timer = null;
+    var AUTO_MS = 6500;
+    var SWAP_MS = 320;
 
-    function shuffle(a) {
-      a = a.slice();
-      for (var i = a.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var t = a[i]; a[i] = a[j]; a[j] = t;
-      }
-      return a;
-    }
+    function clearChildren(el) { while (el.firstChild) el.removeChild(el.firstChild); }
 
-    function render(items) {
-      cards.forEach(function (card, i) {
-        var d = items[i];
-        if (!d) return;
+    function render(i, instant) {
+      var d = items[i]; if (!d) return;
+      var apply = function () {
         card.querySelector('.confess-q').textContent = d.quote;
         card.querySelector('.confess-c').textContent = d.attrib;
         card.querySelector('.confess-t').textContent = d.trait;
-      });
-    }
-
-    function pickThree(pool, exclude) {
-      var ex = (exclude || []).map(function (e) { return e.quote; });
-      var rest = pool.filter(function (p) { return ex.indexOf(p.quote) === -1; });
-      var chosen = shuffle(rest).slice(0, 3);
-      while (chosen.length < 3) chosen.push(shuffle(pool)[0]);
-      return chosen;
-    }
-
-    function start(pool) {
-      var current = shuffle(pool).slice(0, 3);
-      render(current);
-      if (reduced || pool.length <= 3) return;
-      var timer = null;
-      var cycle = function () {
-        cards.forEach(function (c) { c.classList.add('is-swap'); });
-        setTimeout(function () {
-          current = pickThree(pool, current);
-          render(current);
-          cards.forEach(function (c) { c.classList.remove('is-swap'); });
-        }, 380);
+        requestAnimationFrame(function () { card.classList.remove('is-swap'); });
       };
-      var section = row.closest('section');
-      var run = function () { timer = setInterval(cycle, 6800); };
-      var stop = function () { if (timer) { clearInterval(timer); timer = null; } };
-      if (section) {
-        section.addEventListener('mouseenter', stop);
-        section.addEventListener('mouseleave', run);
-        section.addEventListener('focusin', stop);
-        section.addEventListener('focusout', run);
+      if (instant) { apply(); }
+      else { card.classList.add('is-swap'); setTimeout(apply, SWAP_MS); }
+      updateDots();
+    }
+
+    function updateDots() {
+      if (!dotsHost) return;
+      var dots = dotsHost.querySelectorAll('button');
+      for (var i = 0; i < dots.length; i++) {
+        var on = i === idx;
+        dots[i].classList.toggle('is-on', on);
+        dots[i].setAttribute('aria-current', on ? 'true' : 'false');
       }
-      run();
+    }
+
+    function go(d)   { idx = (idx + d + items.length) % items.length; render(idx); resetAuto(); }
+    function goTo(i) { if (i === idx) return; idx = i; render(idx); resetAuto(); }
+
+    function startAuto() { if (reduced || items.length <= 1) return; timer = setInterval(function () { idx = (idx + 1) % items.length; render(idx); }, AUTO_MS); }
+    function stopAuto()  { if (timer) { clearInterval(timer); timer = null; } }
+    function resetAuto() { stopAuto(); startAuto(); }
+
+    function makeDots() {
+      if (!dotsHost) return;
+      clearChildren(dotsHost);
+      items.forEach(function (_, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cf-dot';
+        b.setAttribute('aria-label', 'Confession ' + (i + 1));
+        b.addEventListener('click', function () { goTo(i); });
+        dotsHost.appendChild(b);
+      });
+      updateDots();
+    }
+
+    function init(pool) {
+      items = pool;
+      idx = Math.floor(Math.random() * items.length);
+      makeDots();
+      render(idx, true);
+      if (prev) prev.addEventListener('click', function () { go(-1); });
+      if (next) next.addEventListener('click', function () { go(+1); });
+      stage.addEventListener('mouseenter', stopAuto);
+      stage.addEventListener('mouseleave', startAuto);
+      stage.addEventListener('focusin',  stopAuto);
+      stage.addEventListener('focusout', startAuto);
+      // swipe
+      var sx = 0, dragging = false;
+      stage.addEventListener('pointerdown', function (e) { sx = e.clientX; dragging = true; });
+      stage.addEventListener('pointerup',   function (e) {
+        if (!dragging) return;
+        dragging = false;
+        var dx = e.clientX - sx;
+        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+      });
+      stage.addEventListener('pointercancel', function () { dragging = false; });
+      startAuto();
     }
 
     fetch('assets/data/confessions.json')
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { start((d && d.length) ? d : FALLBACK); })
-      .catch(function () { start(FALLBACK); });
+      .then(function (d) { init((d && d.length) ? d : FALLBACK); })
+      .catch(function () { init(FALLBACK); });
   })();
 
   /* ---- Year stamp -------------------------------------------- */

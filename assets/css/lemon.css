@@ -552,7 +552,30 @@ svg.ic--sm { width: 1.2em; height: 1.2em; }
 .cat-head:first-child { margin-top: 0; padding-top: .2rem; }
 
 /* ---- Boss Confessions --------------------------------------- */
-.confess-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; align-items: stretch; }
+.confess-carousel { position: relative; max-width: 780px; margin: 0 auto; }
+.confess-stage { position: relative; padding: 0 56px; }
+.confess-card--solo { min-height: 230px; padding: 2rem 2.2rem 1.7rem; }
+.confess-card--solo .confess-q { font-size: clamp(1.18rem, 1.9vw, 1.62rem); }
+.cf-nav {
+  position: absolute; top: 50%; margin-top: -22px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--card); border: 2.5px solid var(--ink); box-shadow: var(--shadow-pop);
+  display: grid; place-items: center; cursor: pointer; z-index: 2;
+  transition: transform .2s cubic-bezier(.34,1.55,.5,1), box-shadow .18s ease, background .16s ease;
+}
+.cf-nav:hover  { background: var(--lemon); transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+.cf-nav:active { transform: translate(0,1px) scale(.96); box-shadow: 2px 2px 0 var(--ink); }
+.cf-nav--prev { left: 0; }
+.cf-nav--next { right: 0; }
+.cf-nav svg { width: 18px; height: 18px; }
+.cf-dots { display: flex; justify-content: center; gap: .55rem; margin-top: 1.4rem; }
+.cf-dot {
+  width: 11px; height: 11px; border: 2px solid var(--ink); background: var(--card);
+  border-radius: 50%; padding: 0; cursor: pointer;
+  transition: background .18s ease, transform .18s ease;
+}
+.cf-dot.is-on  { background: var(--lemon); }
+.cf-dot:hover  { transform: scale(1.18); }
 .confess-card {
   background: var(--card); border: 2.5px solid var(--ink); border-radius: var(--radius);
   padding: 1.6rem 1.5rem 1.4rem; box-shadow: var(--shadow-pop);
@@ -574,4 +597,4 @@ svg.ic--sm { width: 1.2em; height: 1.2em; }
   font-weight: 700; color: var(--sour); background: var(--lemon-br);
   border: 1.5px solid var(--ink); border-radius: 2px; padding: .22rem .55rem;
 }
-@media (max-width: 880px) { .confess-row { grid-template-columns: 1fr; } .confess-card { box-shadow: 4px 4px 0 var(--ink); } }
+@media (max-width: 720px) { .confess-stage { padding: 0; } .cf-nav { display: none; } .confess-card { box-shadow: 4px 4px 0 var(--ink); } }
