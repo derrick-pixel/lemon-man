@@ -136,7 +136,11 @@ strong { font-weight: 700; color: var(--ink); }
 .nav__links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 3px; background: var(--lemon); transition: width .2s ease; }
 .nav__links a:hover, .nav__links a[aria-current="page"] { color: var(--ink); }
 .nav__links a:hover::after, .nav__links a[aria-current="page"]::after { width: 100%; }
-.nav__right { display: flex; align-items: center; gap: .9rem; }
+.nav__right { display: flex; align-items: center; gap: .7rem; }
+.nav__admin { display: inline-flex; align-items: center; gap: .35rem; font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--ink-3); padding: .45rem .7rem .42rem; border: 1.5px solid var(--ink-3); border-radius: 999px; transition: color .15s ease, border-color .15s ease, background .15s ease; }
+.nav__admin:hover { color: var(--ink); border-color: var(--ink); background: rgba(33,29,18,.04); }
+.nav__admin svg { width: 11px; height: 11px; stroke-width: 2.4; }
+@media (max-width: 720px) { .nav__admin { display: none; } }
 .nav__burger { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; }
 .nav__burger span, .nav__burger span::before, .nav__burger span::after { display: block; width: 22px; height: 2.5px; background: var(--ink); transition: .2s; }
 .nav__burger span { position: relative; }
