@@ -541,3 +541,12 @@ strong { font-weight: 700; color: var(--ink); }
 svg.ic { width: 1.5em; height: 1.5em; flex: none; vertical-align: -.34em; }
 svg.ic--sm { width: 1.2em; height: 1.2em; }
 .pledge__mark svg.ic { width: 1.25rem; height: 1.25rem; vertical-align: 0; }
+
+/* ---- Simulator category headers ----------------------------- */
+.cat-head {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--sour); font-weight: 700;
+  padding: 1.4rem 0 .55rem; border-bottom: 2.5px solid var(--ink);
+  margin-top: .4rem;
+}
+.cat-head:first-child { margin-top: 0; padding-top: .2rem; }
