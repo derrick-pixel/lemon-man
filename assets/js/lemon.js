@@ -489,6 +489,78 @@
     recompute();
   })();
 
+  /* ---- Boss Confessions rotator ------------------------------ */
+  (function () {
+    var row = document.getElementById('confess-row');
+    if (!row) return;
+    var cards = row.querySelectorAll('.confess-card');
+    if (!cards.length) return;
+
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var FALLBACK = [
+      { quote: "Three guys, three MCs, all dated Monday. Always Monday.",                  attrib: "F&B owner · Boon Lay",         trait: "malingering MC" },
+      { quote: "He claimed bird's nest as 'medication'. I claimed his bonus.",            attrib: "Bank ops · CBD",               trait: "expense fraud" },
+      { quote: "Took the deposit. Took the uniform. Took the next day off forever.",      attrib: "Events staffing · Bugis",      trait: "contract abandonment" }
+    ];
+
+    function shuffle(a) {
+      a = a.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function render(items) {
+      cards.forEach(function (card, i) {
+        var d = items[i];
+        if (!d) return;
+        card.querySelector('.confess-q').textContent = d.quote;
+        card.querySelector('.confess-c').textContent = d.attrib;
+        card.querySelector('.confess-t').textContent = d.trait;
+      });
+    }
+
+    function pickThree(pool, exclude) {
+      var ex = (exclude || []).map(function (e) { return e.quote; });
+      var rest = pool.filter(function (p) { return ex.indexOf(p.quote) === -1; });
+      var chosen = shuffle(rest).slice(0, 3);
+      while (chosen.length < 3) chosen.push(shuffle(pool)[0]);
+      return chosen;
+    }
+
+    function start(pool) {
+      var current = shuffle(pool).slice(0, 3);
+      render(current);
+      if (reduced || pool.length <= 3) return;
+      var timer = null;
+      var cycle = function () {
+        cards.forEach(function (c) { c.classList.add('is-swap'); });
+        setTimeout(function () {
+          current = pickThree(pool, current);
+          render(current);
+          cards.forEach(function (c) { c.classList.remove('is-swap'); });
+        }, 380);
+      };
+      var section = row.closest('section');
+      var run = function () { timer = setInterval(cycle, 6800); };
+      var stop = function () { if (timer) { clearInterval(timer); timer = null; } };
+      if (section) {
+        section.addEventListener('mouseenter', stop);
+        section.addEventListener('mouseleave', run);
+        section.addEventListener('focusin', stop);
+        section.addEventListener('focusout', run);
+      }
+      run();
+    }
+
+    fetch('assets/data/confessions.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { start((d && d.length) ? d : FALLBACK); })
+      .catch(function () { start(FALLBACK); });
+  })();
+
   /* ---- Year stamp -------------------------------------------- */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();

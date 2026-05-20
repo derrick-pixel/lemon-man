@@ -550,3 +550,28 @@ svg.ic--sm { width: 1.2em; height: 1.2em; }
   margin-top: .4rem;
 }
 .cat-head:first-child { margin-top: 0; padding-top: .2rem; }
+
+/* ---- Boss Confessions --------------------------------------- */
+.confess-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; align-items: stretch; }
+.confess-card {
+  background: var(--card); border: 2.5px solid var(--ink); border-radius: var(--radius);
+  padding: 1.6rem 1.5rem 1.4rem; box-shadow: var(--shadow-pop);
+  display: flex; flex-direction: column;
+  transition: opacity .4s ease, transform .4s ease;
+}
+.confess-card.is-swap { opacity: 0; transform: translateY(-6px); }
+.confess-q {
+  font-family: var(--serif); font-size: clamp(1.06rem, 1.5vw, 1.32rem); line-height: 1.34;
+  color: var(--ink); font-style: normal; font-weight: 500;
+  margin: 0 0 1rem; flex: 1;
+}
+.confess-q::before { content: "\201C"; font-size: 2.2rem; line-height: 0; color: var(--lemon); margin-right: .12rem; vertical-align: -.42em; }
+.confess-q::after  { content: "\201D"; font-size: 2.2rem; line-height: 0; color: var(--lemon); margin-left: .1rem; vertical-align: -.42em; }
+.confess-meta { border-top: 2px dashed var(--line); padding-top: .85rem; margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .8rem; flex-wrap: wrap; }
+.confess-c   { font-family: var(--mono); font-size: .75rem; letter-spacing: .04em; color: var(--ink-3); font-style: normal; }
+.confess-t   {
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+  font-weight: 700; color: var(--sour); background: var(--lemon-br);
+  border: 1.5px solid var(--ink); border-radius: 2px; padding: .22rem .55rem;
+}
+@media (max-width: 880px) { .confess-row { grid-template-columns: 1fr; } .confess-card { box-shadow: 4px 4px 0 var(--ink); } }
