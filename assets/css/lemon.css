@@ -576,6 +576,18 @@ svg.ic--sm { width: 1.2em; height: 1.2em; }
 }
 .cf-dot.is-on  { background: var(--lemon); }
 .cf-dot:hover  { transform: scale(1.18); }
+
+/* ---- v3 placements ----------------------------------------- */
+.hero--kampong {
+  background:
+    linear-gradient(rgba(246,239,218,.6), rgba(246,239,218,.6)),
+    url(../img/kampong-bg.webp) center bottom / cover no-repeat var(--paper);
+}
+.illo-balance { width: 100%; max-width: 480px; margin: 1.4rem auto 0; display: block; }
+.lemonified-img { width: clamp(108px, 14vw, 142px); float: right; margin: -.4rem -.4rem .5rem 1rem; }
+@media (max-width: 720px) {
+  .lemonified-img { float: none; width: 110px; display: block; margin: 0 auto .8rem; }
+}
 .confess-card {
   background: var(--card); border: 2.5px solid var(--ink); border-radius: var(--radius);
   padding: 1.6rem 1.5rem 1.4rem; box-shadow: var(--shadow-pop);
