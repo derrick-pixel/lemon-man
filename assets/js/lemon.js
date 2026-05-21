@@ -187,11 +187,11 @@
       { id: 'theft',   name: 'Theft (with police report)',         base: 500 }
     ];
     var RIPEN = [
-      { id: 'testi',  name: 'Verified good testimonial',     per: 70,  max: 2 },
-      { id: 'wsq',    name: 'WSQ course completed',          per: 90,  max: 2 },
-      { id: 'volun',  name: 'Certified charity volunteering', per: 60,  max: 3, unit: '20h at an IPC charity' },
-      { id: 'donate', name: 'Tax-deductible charity donation',per: 50,  max: 3, unit: 'S$500 to an IPC charity' },
-      { id: 'clean',  name: '12+ clean months on record',    per: 200, max: 1 }
+      { id: 'testi',  name: 'Verified good testimonial',      per: 70,  max: 2 },
+      { id: 'wsq',    name: 'WSQ course completed',           per: 90,  max: 2 },
+      { id: 'volun',  name: 'Certified charity volunteering', per: 50,  max: 20, unit: '8h at an IPC charity' },
+      { id: 'donate', name: 'Tax-deductible charity donation',per: 20,  max: 50, unit: 'S$100 to an IPC charity' },
+      { id: 'clean',  name: '12+ clean months on record',     per: 200, max: 1 }
     ];
     var MAX_N = 3;
 
@@ -199,10 +199,12 @@
     function corr(n) { return n <= 0 ? 0 : 0.25 * n * n + 0.75 * n; }
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
     function band(s) {
+      if (s < 0)    return ['🍑 Top peach — premium hire', 'is-topeach'];
       if (s <= 250) return ['Peach — safe hire', 'is-peach'];
       if (s <= 550) return ['A bit zesty', 'is-zest'];
       if (s <= 760) return ['Sour — handle with care', 'is-sour'];
-      return ['Pucker up', 'is-sour'];
+      if (s <= 1000) return ['Pucker up', 'is-sour'];
+      return ['🍋 Off the chart sour', 'is-pucker-max'];
     }
     function mk(tag, cls, text) {
       var e = document.createElement(tag);
@@ -266,12 +268,62 @@
     var cfBody  = face && face.querySelector('.cf-body');
     var cfMouth = face && face.querySelector('.cf-mouth');
     var FACES = {
-      peach:  { fill: '#e6855c', mouth: 'M12.5 20 Q16 23.6 19.5 20' },
-      zest:   { fill: '#ffd23c', mouth: 'M13 20.9 Q16 22.5 19 20.9' },
-      sour:   { fill: '#e3a400', mouth: 'M12.5 22.4 Q16 18.8 19.5 22.4' },
-      pucker: { fill: '#a86a00', mouth: 'M12.6 21.2 Q14.3 19.3 16 21.2 Q17.7 23.1 19.4 21.2' }
+      topeach: { fill: '#ffb491', mouth: 'M11.4 19.4 Q16 25.2 20.6 19.4' },
+      peach:   { fill: '#e6855c', mouth: 'M12.5 20 Q16 23.6 19.5 20' },
+      zest:    { fill: '#ffd23c', mouth: 'M13 20.9 Q16 22.5 19 20.9' },
+      sour:    { fill: '#e3a400', mouth: 'M12.5 22.4 Q16 18.8 19.5 22.4' },
+      pucker:  { fill: '#a86a00', mouth: 'M12.6 21.2 Q14.3 19.3 16 21.2 Q17.7 23.1 19.4 21.2' },
+      max:     { fill: '#7a3a00', mouth: 'M12.6 22 Q14.3 18.5 16 22 Q17.7 25.5 19.4 22' }
     };
-    function faceKey(s) { return s <= 250 ? 'peach' : s <= 550 ? 'zest' : s <= 760 ? 'sour' : 'pucker'; }
+    function faceKey(s) {
+      if (s < 0)     return 'topeach';
+      if (s <= 250)  return 'peach';
+      if (s <= 550)  return 'zest';
+      if (s <= 760)  return 'sour';
+      if (s <= 1000) return 'pucker';
+      return 'max';
+    }
+
+    var elResult = document.querySelector('#calculator .calc__result');
+    var elBanner = null;
+    if (elResult) {
+      elBanner = document.createElement('div');
+      elBanner.className = 'calc__hooray';
+      elBanner.setAttribute('aria-live', 'polite');
+      var bStamp = document.createElement('span');
+      bStamp.className = 'calc__hooray-stamp';
+      bStamp.textContent = '5-star hire';
+      var bMsg = document.createElement('strong');
+      bMsg.textContent = 'Impressive worker — book on sight! 🍑✨';
+      elBanner.appendChild(bStamp);
+      elBanner.appendChild(bMsg);
+      elResult.appendChild(elBanner);
+    }
+    var prevNeg = false;
+    function fireConfettiOnce(host) {
+      if (!host) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+      var colours = ['#e6855c', '#ffb491', '#ffd23c', '#fffdf2', '#f4a983'];
+      for (var i = 0; i < 26; i++) {
+        (function (idx) {
+          var p = document.createElement('span'), sz = 7 + Math.random() * 7;
+          p.style.cssText = 'position:absolute;left:50%;top:18%;width:' + sz +
+            'px;height:' + sz + 'px;background:' + colours[idx % 5] +
+            ';border:1.5px solid #211d12;border-radius:' + (Math.random() < 0.5 ? '50%' : '2px') +
+            ';pointer-events:none;z-index:60;';
+          host.appendChild(p);
+          var ang = Math.random() * 6.283, dist = 60 + Math.random() * 160;
+          var a = p.animate(
+            [{ transform: 'translate(-50%,0) rotate(0deg)', opacity: 1 },
+             { transform: 'translate(' + (Math.cos(ang) * dist - 50).toFixed(1) + '%,' +
+               (Math.sin(ang) * dist + 200).toFixed(1) + 'px) rotate(' +
+               (Math.random() * 800 - 400).toFixed(0) + 'deg)', opacity: 0 }],
+            { duration: 1100 + Math.random() * 600, easing: 'cubic-bezier(.2,.7,.3,1)' });
+          a.onfinish = function () { p.remove(); };
+        })(i);
+      }
+    }
 
     function recompute() {
       var raw = 0;
@@ -279,25 +331,34 @@
       raw = Math.round(raw);
       var ripen = 0;
       RIPEN.forEach(function (r) { ripen += r.per * state[r.id]; });
-      var score = clamp(raw - ripen, 0, 1000);
+      var score = raw - ripen;
       var b = band(score);
-      if (elScore)   elScore.textContent = score;
+      var pinPct = clamp(score / 1000 * 100, 0, 100);
+      if (elScore)   elScore.textContent = score < 0 ? ('−' + Math.abs(score)) : score;
       if (elVerdict) { elVerdict.textContent = b[0]; elVerdict.className = 'calc__verdict ' + b[1]; }
-      if (elPin)     elPin.style.left = (score / 1000 * 100) + '%';
+      if (elPin)     elPin.style.left = pinPct + '%';
       if (elRaw)     elRaw.textContent = raw;
       if (elRipTot)  elRipTot.textContent = '−' + ripen;
-      if (elFinal)   elFinal.textContent = score;
+      if (elFinal)   elFinal.textContent = score < 0 ? ('−' + Math.abs(score)) : score;
       if (cfBody && cfMouth) {
         var f = FACES[faceKey(score)];
         cfBody.setAttribute('fill', f.fill);
         cfMouth.setAttribute('d', f.mouth);
       }
+      if (elResult) {
+        elResult.classList.toggle('is-topeach', score < 0);
+        elResult.classList.toggle('is-overload', score > 1000);
+      }
+      var isNeg = score < 0;
+      if (isNeg && !prevNeg) { fireConfettiOnce(elResult); }
+      prevNeg = isNeg;
     }
 
     var reset = document.getElementById('calc-reset');
     if (reset) reset.addEventListener('click', function () {
       Object.keys(state).forEach(function (k) { state[k] = 0; });
       syncers.forEach(function (fn) { fn(); });
+      prevNeg = false;
       recompute();
     });
 
@@ -377,25 +438,36 @@
     var SIM_RIPEN = [
       { id: 'testi',  name: 'Verified good testimonial',      per: 70,  max: 2 },
       { id: 'wsq',    name: 'WSQ course completed',           per: 90,  max: 2 },
-      { id: 'volun',  name: 'Certified charity volunteering', per: 60,  max: 3, unit: '20h at an IPC charity' },
-      { id: 'donate', name: 'Tax-deductible charity donation',per: 50,  max: 3, unit: 'S$500 to an IPC charity' },
+      { id: 'volun',  name: 'Certified charity volunteering', per: 50,  max: 20, unit: '8h at an IPC charity' },
+      { id: 'donate', name: 'Tax-deductible charity donation',per: 20,  max: 50, unit: 'S$100 to an IPC charity' },
       { id: 'clean',  name: '12+ clean months on record',     per: 200, max: 1 }
     ];
     var MAX_N = 3;
     function corr(n) { return n <= 0 ? 0 : 0.25 * n * n + 0.75 * n; }
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
     function bandStr(s) {
-      if (s <= 250) return ['Peach — safe hire', 'is-peach'];
-      if (s <= 550) return ['A bit zesty', 'is-zest'];
-      if (s <= 760) return ['Sour — handle with care', 'is-sour'];
-      return ['Pucker up', 'is-sour'];
+      if (s < 0)     return ['🍑 Top peach — premium hire', 'is-topeach'];
+      if (s <= 250)  return ['Peach — safe hire', 'is-peach'];
+      if (s <= 550)  return ['A bit zesty', 'is-zest'];
+      if (s <= 760)  return ['Sour — handle with care', 'is-sour'];
+      if (s <= 1000) return ['Pucker up', 'is-sour'];
+      return ['🍋 Off the chart sour', 'is-pucker-max'];
     }
-    function faceKey(s) { return s <= 250 ? 'peach' : s <= 550 ? 'zest' : s <= 760 ? 'sour' : 'pucker'; }
+    function faceKey(s) {
+      if (s < 0)     return 'topeach';
+      if (s <= 250)  return 'peach';
+      if (s <= 550)  return 'zest';
+      if (s <= 760)  return 'sour';
+      if (s <= 1000) return 'pucker';
+      return 'max';
+    }
     var FACES = {
-      peach:  { fill: '#e6855c', mouth: 'M12.5 20 Q16 23.6 19.5 20' },
-      zest:   { fill: '#ffd23c', mouth: 'M13 20.9 Q16 22.5 19 20.9' },
-      sour:   { fill: '#e3a400', mouth: 'M12.5 22.4 Q16 18.8 19.5 22.4' },
-      pucker: { fill: '#a86a00', mouth: 'M12.6 21.2 Q14.3 19.3 16 21.2 Q17.7 23.1 19.4 21.2' }
+      topeach: { fill: '#ffb491', mouth: 'M11.4 19.4 Q16 25.2 20.6 19.4' },
+      peach:   { fill: '#e6855c', mouth: 'M12.5 20 Q16 23.6 19.5 20' },
+      zest:    { fill: '#ffd23c', mouth: 'M13 20.9 Q16 22.5 19 20.9' },
+      sour:    { fill: '#e3a400', mouth: 'M12.5 22.4 Q16 18.8 19.5 22.4' },
+      pucker:  { fill: '#a86a00', mouth: 'M12.6 21.2 Q14.3 19.3 16 21.2 Q17.7 23.1 19.4 21.2' },
+      max:     { fill: '#7a3a00', mouth: 'M12.6 22 Q14.3 18.5 16 22 Q17.7 25.5 19.4 22' }
     };
     function mk(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
 
@@ -458,31 +530,79 @@
     var cfBody    = face && face.querySelector('.cf-body');
     var cfMouth   = face && face.querySelector('.cf-mouth');
 
+    var elResult = document.querySelector('#simulator .calc__result');
+    if (elResult) {
+      var bn = document.createElement('div');
+      bn.className = 'calc__hooray';
+      bn.setAttribute('aria-live', 'polite');
+      var bs = document.createElement('span');
+      bs.className = 'calc__hooray-stamp';
+      bs.textContent = '5-star hire';
+      var bm = document.createElement('strong');
+      bm.textContent = 'Impressive worker — book on sight! 🍑✨';
+      bn.appendChild(bs); bn.appendChild(bm);
+      elResult.appendChild(bn);
+    }
+    var prevNeg = false;
+    function fireConfettiOnce(host) {
+      if (!host) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+      var colours = ['#e6855c', '#ffb491', '#ffd23c', '#fffdf2', '#f4a983'];
+      for (var i = 0; i < 26; i++) {
+        (function (idx) {
+          var p = document.createElement('span'), sz = 7 + Math.random() * 7;
+          p.style.cssText = 'position:absolute;left:50%;top:18%;width:' + sz +
+            'px;height:' + sz + 'px;background:' + colours[idx % 5] +
+            ';border:1.5px solid #211d12;border-radius:' + (Math.random() < 0.5 ? '50%' : '2px') +
+            ';pointer-events:none;z-index:60;';
+          host.appendChild(p);
+          var ang = Math.random() * 6.283, dist = 60 + Math.random() * 160;
+          var a = p.animate(
+            [{ transform: 'translate(-50%,0) rotate(0deg)', opacity: 1 },
+             { transform: 'translate(' + (Math.cos(ang) * dist - 50).toFixed(1) + '%,' +
+               (Math.sin(ang) * dist + 200).toFixed(1) + 'px) rotate(' +
+               (Math.random() * 800 - 400).toFixed(0) + 'deg)', opacity: 0 }],
+            { duration: 1100 + Math.random() * 600, easing: 'cubic-bezier(.2,.7,.3,1)' });
+          a.onfinish = function () { p.remove(); };
+        })(i);
+      }
+    }
+
     function recompute() {
       var raw = 0;
       SIM_INCIDENTS.forEach(function (i) { raw += i.base * corr(state[i.id]); });
       raw = Math.round(raw);
       var ripen = 0;
       SIM_RIPEN.forEach(function (r) { ripen += r.per * state[r.id]; });
-      var score = clamp(raw - ripen, 0, 1000);
+      var score = raw - ripen;
       var b = bandStr(score);
-      if (elScore)   elScore.textContent = score;
+      var pinPct = clamp(score / 1000 * 100, 0, 100);
+      if (elScore)   elScore.textContent = score < 0 ? ('−' + Math.abs(score)) : score;
       if (elVerdict) { elVerdict.textContent = b[0]; elVerdict.className = 'calc__verdict ' + b[1]; }
-      if (elPin)     elPin.style.left = (score / 1000 * 100) + '%';
+      if (elPin)     elPin.style.left = pinPct + '%';
       if (elRaw)     elRaw.textContent = raw;
       if (elRipTot)  elRipTot.textContent = '−' + ripen;
-      if (elFinal)   elFinal.textContent = score;
+      if (elFinal)   elFinal.textContent = score < 0 ? ('−' + Math.abs(score)) : score;
       if (cfBody && cfMouth) {
         var f = FACES[faceKey(score)];
         cfBody.setAttribute('fill', f.fill);
         cfMouth.setAttribute('d', f.mouth);
       }
+      if (elResult) {
+        elResult.classList.toggle('is-topeach', score < 0);
+        elResult.classList.toggle('is-overload', score > 1000);
+      }
+      var isNeg = score < 0;
+      if (isNeg && !prevNeg) { fireConfettiOnce(elResult); }
+      prevNeg = isNeg;
     }
 
     var reset = document.getElementById('sim-reset');
     if (reset) reset.addEventListener('click', function () {
       Object.keys(state).forEach(function (k) { state[k] = 0; });
       syncers.forEach(function (fn) { fn(); });
+      prevNeg = false;
       recompute();
     });
 
