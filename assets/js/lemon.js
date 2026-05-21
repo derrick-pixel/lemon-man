@@ -206,6 +206,14 @@
       if (s <= 1000) return ['Pucker up', 'is-sour'];
       return ['🍋 Off the chart sour', 'is-pucker-max'];
     }
+    function callout(s) {
+      if (s < 0)     return { cls: 'is-topeach',    stamp: '5-star hire',         msg: 'Impressive worker — book on sight! 🍑✨' };
+      if (s <= 250)  return { cls: 'is-peach',      stamp: '4-star · safe hire',  msg: 'Clean lemon — squeeze with confidence 🍑' };
+      if (s <= 550)  return { cls: 'is-zest',       stamp: '3-star · vet first',  msg: 'Some flags on file — ask the right questions 🍋' };
+      if (s <= 760)  return { cls: 'is-sour',       stamp: '2-star · high risk',  msg: 'Backup duties only — tight supervision ⚠️' };
+      if (s <= 1000) return { cls: 'is-pucker',     stamp: '1-star · last resort',msg: 'Mutually assured sourness territory 🛑' };
+      return                  { cls: 'is-pucker-max', stamp: '0-star · hard pass',  msg: 'Police-blotter tier — walk away 🚫' };
+    }
     function mk(tag, cls, text) {
       var e = document.createElement(tag);
       if (cls) e.className = cls;
@@ -285,16 +293,14 @@
     }
 
     var elResult = document.querySelector('#calculator .calc__result');
-    var elBanner = null;
+    var bStamp = null, bMsg = null, elBanner = null;
     if (elResult) {
       elBanner = document.createElement('div');
       elBanner.className = 'calc__hooray';
       elBanner.setAttribute('aria-live', 'polite');
-      var bStamp = document.createElement('span');
+      bStamp = document.createElement('span');
       bStamp.className = 'calc__hooray-stamp';
-      bStamp.textContent = '5-star hire';
-      var bMsg = document.createElement('strong');
-      bMsg.textContent = 'Impressive worker — book on sight! 🍑✨';
+      bMsg = document.createElement('strong');
       elBanner.appendChild(bStamp);
       elBanner.appendChild(bMsg);
       elResult.appendChild(elBanner);
@@ -349,6 +355,10 @@
         elResult.classList.toggle('is-topeach', score < 0);
         elResult.classList.toggle('is-overload', score > 1000);
       }
+      var co = callout(score);
+      if (elBanner) elBanner.className = 'calc__hooray ' + co.cls;
+      if (bStamp)   bStamp.textContent = co.stamp;
+      if (bMsg)     bMsg.textContent = co.msg;
       var isNeg = score < 0;
       if (isNeg && !prevNeg) { fireConfettiOnce(elResult); }
       prevNeg = isNeg;
@@ -453,6 +463,14 @@
       if (s <= 1000) return ['Pucker up', 'is-sour'];
       return ['🍋 Off the chart sour', 'is-pucker-max'];
     }
+    function callout(s) {
+      if (s < 0)     return { cls: 'is-topeach',    stamp: '5-star hire',         msg: 'Impressive worker — book on sight! 🍑✨' };
+      if (s <= 250)  return { cls: 'is-peach',      stamp: '4-star · safe hire',  msg: 'Clean lemon — squeeze with confidence 🍑' };
+      if (s <= 550)  return { cls: 'is-zest',       stamp: '3-star · vet first',  msg: 'Some flags on file — ask the right questions 🍋' };
+      if (s <= 760)  return { cls: 'is-sour',       stamp: '2-star · high risk',  msg: 'Backup duties only — tight supervision ⚠️' };
+      if (s <= 1000) return { cls: 'is-pucker',     stamp: '1-star · last resort',msg: 'Mutually assured sourness territory 🛑' };
+      return                  { cls: 'is-pucker-max', stamp: '0-star · hard pass',  msg: 'Police-blotter tier — walk away 🚫' };
+    }
     function faceKey(s) {
       if (s < 0)     return 'topeach';
       if (s <= 250)  return 'peach';
@@ -531,17 +549,16 @@
     var cfMouth   = face && face.querySelector('.cf-mouth');
 
     var elResult = document.querySelector('#simulator .calc__result');
+    var simBanner = null, simStamp = null, simMsg = null;
     if (elResult) {
-      var bn = document.createElement('div');
-      bn.className = 'calc__hooray';
-      bn.setAttribute('aria-live', 'polite');
-      var bs = document.createElement('span');
-      bs.className = 'calc__hooray-stamp';
-      bs.textContent = '5-star hire';
-      var bm = document.createElement('strong');
-      bm.textContent = 'Impressive worker — book on sight! 🍑✨';
-      bn.appendChild(bs); bn.appendChild(bm);
-      elResult.appendChild(bn);
+      simBanner = document.createElement('div');
+      simBanner.className = 'calc__hooray';
+      simBanner.setAttribute('aria-live', 'polite');
+      simStamp = document.createElement('span');
+      simStamp.className = 'calc__hooray-stamp';
+      simMsg = document.createElement('strong');
+      simBanner.appendChild(simStamp); simBanner.appendChild(simMsg);
+      elResult.appendChild(simBanner);
     }
     var prevNeg = false;
     function fireConfettiOnce(host) {
@@ -593,6 +610,10 @@
         elResult.classList.toggle('is-topeach', score < 0);
         elResult.classList.toggle('is-overload', score > 1000);
       }
+      var co = callout(score);
+      if (simBanner) simBanner.className = 'calc__hooray ' + co.cls;
+      if (simStamp)  simStamp.textContent = co.stamp;
+      if (simMsg)    simMsg.textContent = co.msg;
       var isNeg = score < 0;
       if (isNeg && !prevNeg) { fireConfettiOnce(elResult); }
       prevNeg = isNeg;
