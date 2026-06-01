@@ -214,34 +214,14 @@ body.ez-gate-locked>*:not(#ez-auth-overlay):not(script){display:none!important}'
    ════════════════════════════════════════════════════════════════ */
 (function workspaceSwitcher() {
   'use strict';
-  var WORKSPACES = [
-    { n: 'DTWS Works',          u: 'https://derrick-pixel.github.io/dtws_works/admin.html', i: '🛠️' },
-    { n: 'derrickteo.com',      u: 'https://derrickteo.com/admin/',                           i: '🏠' },
-    { n: 'Altru',               u: 'https://derrick-pixel.github.io/altru/admin/',            i: '🧧' },
-    { n: 'AEVUM MRI',           u: 'https://derrick-pixel.github.io/Elitez_MRI/admin/',       i: '🏥' },
-    { n: 'Casket (Passage)',    u: 'https://derrick-pixel.github.io/Passage/admin/',          i: '🕊️' },
-    { n: 'Command Center',      u: 'https://derrick-pixel.github.io/elitez-command-center/admin.html', i: '🎛️' },
-    { n: 'Competitor-Intel',    u: 'https://derrick-pixel.github.io/competitor-intel-template/template/admin/', i: '🧭' },
-    { n: 'Discounter',          u: 'https://derrick-pixel.github.io/discounter/admin/',       i: '🛒' },
-    { n: 'Elitez Aviation',     u: 'https://elitezaviation.com/admin/',                        i: '✈️' },
-    { n: 'Elitez Events',       u: 'https://derrick-pixel.github.io/Elitez-Events/admin/',    i: '🎉' },
-    { n: 'Elitez EOR',          u: 'https://derrick-pixel.github.io/elix-eor/admin/',         i: '📝' },
-    { n: 'Elitez ESOP',         u: 'https://derrick-pixel.github.io/Elitez-ESOP/intel/',      i: '📜' },
-    { n: 'Elitez LMS',          u: 'https://lms.elitez.com.sg/admin/',                         i: '🎓' },
-    { n: 'Elitez Pulse',        u: 'https://derrick-pixel.github.io/elitez-pulse/admin/',     i: '📣' },
-    { n: 'Elitez Security',     u: 'https://derrick-pixel.github.io/elitez-security/admin/',  i: '🛡️' },
-    { n: 'Site Supervisor',     u: 'https://derrick-pixel.github.io/elitez-site-supervisor/admin/', i: '🦺' },
-    { n: 'ElitezAI',            u: 'https://derrick-pixel.github.io/elitezai-website/admin/', i: '🤖' },
-    { n: 'ElitezShelf',         u: 'https://derrick-pixel.github.io/elitezshelf-frontage/admin/', i: '🏬' },
-    { n: 'ElixCraft',           u: 'https://derrick-pixel.github.io/ElixCraft/admin/',        i: '⚔️' },
-    { n: 'FlashCart',           u: 'https://derrick-pixel.github.io/flashcart-research/template/admin/', i: '⚡' },
-    { n: 'Lemon Man',           u: 'https://derrick-pixel.github.io/lemon-man/admin/',        i: '🍋' },
-    { n: 'Lumana',              u: 'https://derrick-pixel.github.io/Lumana/admin/',           i: '🌿' },
-    { n: 'Market Tracker',      u: 'https://derrick-pixel.github.io/market-tracker-research/template/admin/', i: '📈' },
-    { n: 'Merchandising',       u: 'https://derrick-pixel.github.io/merchandising/intel/',    i: '🛍️' },
-    { n: 'The Commons',         u: 'https://derrick-pixel.github.io/the-commons/admin/',      i: '🎪' },
-    { n: 'XinceAI',             u: 'https://derrick-pixel.github.io/XinceAI/admin/',          i: '🤖' }
-  ];
+  // CSO orchestra 2026-05-31 finding H1: the 26-entry workspace list
+  // (raw.githubusercontent.com served this file in full) was a sitemap of
+  // every Elitez admin/intel property — recon-as-a-service for adversaries.
+  // The switcher mechanics are preserved (button still renders, dropdown
+  // still opens) but the destination list is now out-of-tree. To restore
+  // the cross-workspace nav, fetch the list from an authenticated endpoint
+  // post-OTP — do NOT paste the array back into public source.
+  var WORKSPACES = [];
   function build() {
     if (document.getElementById('elx-ws-switcher-root')) return;
     var root = document.createElement('div');
