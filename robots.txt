@@ -1,0 +1,13 @@
+# Lemon Man — public-site robots policy
+# Belt-and-braces alongside per-page <meta name="robots"> noindex tags.
+# Added per CSO orchestra 2026-05-31 finding H2.
+#
+# Pre-launch concept-stage site; do not index any path.
+
+User-agent: *
+Disallow: /admin/
+Disallow: /Lemon%20Man%202/
+Disallow: /docs/
+Disallow: /scripts/
+
+Sitemap: https://derrick-pixel.github.io/lemon-man/sitemap.xml
