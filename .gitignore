@@ -22,3 +22,13 @@ stitch_lemon_man_illustration_set V2/
 node_modules/
 .next/
 .env
+
+# --- CSO orchestra 2026-05-31 C2 — keep planning docs out of public source ---
+# Per /Users/derrickteo/codings/dt-site-creator/orchestras/cso/reports/2026-05-31-lemon-man.md
+# These folders contain v2 PRD / legal-risk memo / scoring engine specs.
+# Jekyll exclude in _config.yml only hides Pages render; raw.githubusercontent.com
+# still served the full source tree. git rm + .gitignore closes that.
+# Full filter-repo history scrub deferred to a separate op.
+Lemon Man 2 new project document, not started/
+Lemon Man 2/
+
